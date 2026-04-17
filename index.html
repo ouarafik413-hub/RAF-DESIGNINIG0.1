@@ -14,11 +14,14 @@
             --secondary-purple: #2d0d2e;
             --gold: #c9a050;
             --gold-hover: #b08a40;
-            --bg-gray: #f4f7f6;
-            --text-dark: #2d3436;
-            --text-light: #636e72;
+            --bg-gray: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
             --white: #ffffff;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --whatsapp-green: #25D366;
+            --instagram-pink: #E1306C;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -26,27 +29,29 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
             background-color: var(--white);
             color: var(--text-dark);
-            line-height: 1.7;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
         /* --- Header --- */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 10px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 12px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -66,50 +71,44 @@
             transition: var(--transition);
         }
 
-        .logo:hover { opacity: 0.9; transform: scale(1.02); }
-
-        .logo-img {
-            max-height: 60px;
-            object-fit: contain;
-        }
-
         .logo-box {
             background: linear-gradient(135deg, var(--gold), var(--primary-purple));
             color: white;
-            padding: 5px 10px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(75, 22, 76, 0.2);
         }
 
         .logo-text {
             color: var(--primary-purple);
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             letter-spacing: -0.5px;
         }
 
         nav ul {
             display: flex;
             list-style: none;
-            gap: 20px;
+            gap: 24px;
         }
 
         nav ul li a {
             text-decoration: none;
             color: var(--text-dark);
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
             transition: var(--transition);
-            position: relative;
-            padding-bottom: 5px;
+            padding: 8px 4px;
             cursor: pointer;
+            position: relative;
         }
 
         nav ul li a::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -2px;
             right: 0;
             width: 0;
             height: 2px;
@@ -117,250 +116,240 @@
             transition: var(--transition);
         }
 
-        nav ul li a:hover::after, nav ul li a.active::after {
-            width: 100%;
-        }
+        nav ul li a:hover::after, nav ul li a.active::after { width: 100%; }
+        nav ul li a:hover, nav ul li a.active { color: var(--gold); }
 
-        nav ul li a:hover, nav ul li a.active {
-            color: var(--gold);
+        /* --- Page Transitions --- */
+        .page { display: none; min-height: 80vh; }
+        .page.active { display: block; animation: slideUp 0.6s ease; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- Hero Section --- */
         .hero {
             padding: 100px 0;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            position: relative;
-            overflow: hidden;
+            background: radial-gradient(circle at top right, rgba(201, 160, 80, 0.05), transparent),
+                        radial-gradient(circle at bottom left, rgba(75, 22, 76, 0.05), transparent);
         }
 
         .hero-flex {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 50px;
+            gap: 60px;
         }
 
-        .hero-text { flex: 1.2; z-index: 2; }
-        .hero-image { flex: 0.8; position: relative; z-index: 2; }
+        .hero-text { flex: 1; }
+        .hero-text h1 {
+            color: var(--primary-purple);
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
 
         .hero-image img {
             width: 100%;
-            border-radius: 30px;
-            box-shadow: 20px 20px 60px rgba(0,0,0,0.1);
-            transform: rotate(-2deg);
+            max-width: 550px;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.15);
+            transform: perspective(1000px) rotateY(-5deg);
             transition: var(--transition);
+            background: #eee;
         }
 
-        .hero-image:hover img { transform: rotate(0deg) scale(1.02); }
-
-        .hero-text h1 {
-            color: var(--primary-purple);
-            font-size: 3.5rem;
-            line-height: 1.2;
-            margin-bottom: 20px;
+        /* --- Portfolio Section --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
         }
 
-        .hero-text h2 {
-            color: var(--text-light);
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-bottom: 35px;
+        .portfolio-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            background-color: #f1f5f9;
         }
 
-        /* --- Cards --- */
-        .service-card {
-            background: var(--white);
-            padding: 40px 30px;
-            border-radius: 25px;
-            text-align: center;
-            transition: var(--transition);
-            border: 1px solid #eee;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 45px rgba(0,0,0,0.07);
-            border-color: var(--gold);
-        }
-
-        .service-card i {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--gold), var(--primary-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* --- Pages --- */
-        .page {
-            display: none;
-            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .page.active { display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- Order Form --- */
-        .order-container {
-            max-width: 600px;
-            margin: 60px auto;
-            background: white;
-            padding: 45px;
-            border-radius: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 700;
-            color: var(--primary-purple);
-            font-size: 0.9rem;
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
+        .portfolio-item img {
             width: 100%;
-            padding: 14px;
-            border: 2px solid #f0f0f0;
-            border-radius: 12px;
-            background: #fafafa;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            display: block;
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--primary-purple), transparent);
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 24px;
+            color: white;
             transition: var(--transition);
         }
 
-        .form-group input:focus {
-            border-color: var(--gold);
-            outline: none;
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+        .portfolio-item:hover img { transform: scale(1.1); }
+
+        /* --- Services Cards --- */
+        .services-section { padding: 80px 0; background: var(--bg-gray); }
+        
+        .service-full-card {
+            display: flex;
+            align-items: stretch;
             background: white;
+            border-radius: 32px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
+        .service-full-card:hover { transform: translateY(-5px); }
+        .service-full-card:nth-child(even) { flex-direction: row-reverse; }
+        
+        .service-img-wrapper { flex: 1; min-height: 400px; background-color: #f1f5f9; }
+        .service-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .service-info { 
+            flex: 1; 
+            padding: 60px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+        }
+        
+        .service-info i { font-size: 3rem; color: var(--gold); margin-bottom: 24px; }
+        .service-info h3 { font-size: 2rem; margin-bottom: 16px; color: var(--primary-purple); }
+        .service-info p { color: var(--text-light); margin-bottom: 30px; font-size: 1.1rem; }
+
+        /* --- UI Elements --- */
         .btn-gold {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background: linear-gradient(135deg, var(--gold), var(--gold-hover));
             color: white;
-            padding: 16px 35px;
+            padding: 16px 36px;
             border: none;
-            border-radius: 12px;
-            cursor: pointer;
+            border-radius: 14px;
             font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 10px 20px rgba(201, 160, 80, 0.3);
+            font-size: 1.05rem;
+            cursor: pointer;
             transition: var(--transition);
+            box-shadow: 0 10px 20px -5px rgba(201, 160, 80, 0.4);
+            text-decoration: none;
         }
 
-        .btn-gold:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(201, 160, 80, 0.4);
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px rgba(201, 160, 80, 0.5); }
+
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 2.5rem; color: var(--primary-purple); margin-bottom: 16px; }
+        .section-title p { color: var(--text-light); max-width: 600px; margin: 0 auto; }
+
+        /* --- Footer --- */
+        footer { padding: 80px 0 40px; background: #fff; border-top: 1px solid #f1f5f9; }
+        .social-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
+        .social-btn {
+            width: 50px; height: 50px; border-radius: 15px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.4rem;
+            color: white; transition: var(--transition); text-decoration: none;
+        }
+        .social-btn.wa { background: var(--whatsapp-green); }
+        .social-btn.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .social-btn:hover { transform: translateY(-5px) rotate(8deg); }
+
+        /* --- Custom Modal --- */
+        #custom-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px); display: none; align-items: center;
+            justify-content: center; z-index: 10001; padding: 20px;
+        }
+        .modal-content {
+            background: white; padding: 40px; border-radius: 24px;
+            max-width: 450px; width: 100%; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
         }
 
-        /* --- Admin Floating Panel --- */
+        /* --- Admin Panel --- */
         #admin-edit-panel {
-            position: fixed; bottom: 85px; left: 20px; width: 350px;
-            background: white; padding: 25px; border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.25); display: none; z-index: 10000;
-            max-height: 80vh; overflow-y: auto; border-top: 6px solid var(--gold);
+            position: fixed; bottom: 85px; left: 24px; width: 340px;
+            background: white; padding: 30px; border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2); display: none; z-index: 10000;
+            border: 1px solid #f1f5f9;
         }
-
-        .admin-section { margin-bottom: 25px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px; }
-        .admin-section h4 { color: var(--gold); margin-bottom: 15px; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
-
         #toggle-admin-btn {
-            position: fixed; bottom: 20px; left: 20px; background: var(--primary-purple);
-            color: white; width: 55px; height: 55px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            z-index: 9999; box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: var(--transition);
+            position: fixed; bottom: 24px; left: 24px; width: 50px; height: 50px;
+            background: var(--primary-purple); color: white; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 9999;
+            box-shadow: 0 10px 15px rgba(75, 22, 76, 0.3);
         }
-        #toggle-admin-btn:hover { transform: rotate(90deg); background: var(--gold); }
 
-        /* --- Modal --- */
-        .admin-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-            display: none; justify-content: center; align-items: center; z-index: 10001;
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; color: var(--text-dark); }
+        .form-group input, .form-group textarea { 
+            width: 100%; padding: 14px; border: 2px solid #f1f5f9; 
+            border-radius: 12px; transition: var(--transition); outline: none;
         }
-        .admin-modal { background: white; padding: 40px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; }
+        .form-group input:focus { border-color: var(--gold); }
 
-        footer { background: #1e1e1e; color: #dfe6e9; padding: 60px 0; margin-top: 80px; }
-        .footer-socials a { color: white; margin-left: 20px; font-size: 1.5rem; transition: var(--transition); }
-        .footer-socials a:hover { color: var(--gold); }
+        @media (max-width: 992px) {
+            .hero-flex { flex-direction: column; text-align: center; gap: 40px; }
+            .hero-text h1 { font-size: 3rem; }
+            .hero-text p { margin: 0 auto 30px; }
+            .service-full-card, .service-full-card:nth-child(even) { flex-direction: column; }
+            .service-img-wrapper { min-height: 300px; }
+        }
 
-        @media (max-width: 768px) {
-            .hero-flex { flex-direction: column; text-align: center; }
+        @media (max-width: 600px) {
+            nav { display: none; }
             .hero-text h1 { font-size: 2.5rem; }
-            nav ul { display: none; } 
-            .form-row { grid-template-columns: 1fr; }
+            .service-info { padding: 30px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Admin Logic -->
-    <div id="toggle-admin-btn" onclick="checkAdminAccess()">
-        <i class="fas fa-cog"></i>
-    </div>
-
-    <div id="auth-modal" class="admin-modal-overlay">
-        <div class="admin-modal">
-            <i class="fas fa-shield-halved fa-3x" style="color:var(--primary-purple); margin-bottom:20px;"></i>
-            <h3 style="margin-bottom:10px;">دخول آمن</h3>
-            <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">أدخل كود المسؤول للوصول للإعدادات</p>
-            <div class="form-group">
-                <input type="password" id="admin-pass-input" placeholder="••••••••" style="text-align:center; font-size:1.2rem;">
-            </div>
-            <button class="btn-gold" style="width:100%" onclick="verifyAdmin()">تحقق والدخول</button>
-            <p onclick="closeAuth()" style="margin-top:15px; cursor:pointer; font-size:0.8rem; color:#888;">إلغاء</p>
-        </div>
-    </div>
-
-    <div id="admin-edit-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
-            <strong style="font-size: 1.1rem;">لوحة التحكم</strong>
-            <i class="fas fa-times" onclick="closeAdminPanel()" style="cursor:pointer; padding:5px;"></i>
-        </div>
-
-        <div class="admin-section">
-            <h4><i class="fas fa-id-card"></i> الهوية</h4>
-            <div class="form-group"><label>اسم البراند</label><input type="text" id="edit-logo-text"></div>
-            <div class="form-group"><label>رابط اللوجو (URL)</label><input type="text" id="edit-logo-url"></div>
-        </div>
-
-        <div class="admin-section">
-            <h4><i class="fas fa-share-nodes"></i> التواصل</h4>
-            <div class="form-group"><label>رقم الهاتف/واتساب</label><input type="text" id="edit-phone" placeholder="06xxxxxxxx"></div>
-            <div class="form-group"><label>رابط فيسبوك</label><input type="text" id="edit-fb-url"></div>
-            <div class="form-group"><label>رابط انستغرام</label><input type="text" id="edit-ig-url"></div>
-        </div>
-
-        <div class="admin-section">
-            <h4><i class="fas fa-list-check"></i> الصفحات</h4>
-            <div id="tabs-list-admin"></div>
-            <button class="btn-gold" style="width:100%; padding:8px; font-size:0.8rem; margin-top:10px;" onclick="addNewTabPrompt()">+ إضافة صفحة جديدة</button>
-        </div>
-
-        <button class="btn-gold" style="width:100%;" onclick="saveAllSiteChanges()">حفظ التغييرات</button>
-    </div>
-
     <header>
         <div class="container nav-content">
-            <a href="#" class="logo" onclick="showPage('home')">
-                <img src="" id="display-logo-img" class="logo-img" style="display:none;">
-                <div id="display-logo-wrapper" style="display:flex; align-items:center; gap:10px;">
-                    <div class="logo-box">RG</div>
-                    <span class="logo-text" id="display-logo-text">RAF DESIGN</span>
-                </div>
+            <a href="javascript:void(0)" class="logo" onclick="showPage('home')">
+                <div class="logo-box">RG</div>
+                <span class="logo-text" id="display-logo-text">RAF DESIGN</span>
             </a>
             <nav>
                 <ul id="main-nav">
                     <li><a onclick="showPage('home')" id="nav-home" class="active">الرئيسية</a></li>
+                    <li><a onclick="showPage('portfolio')" id="nav-portfolio">أعمالنا</a></li>
                     <li><a onclick="showPage('services')" id="nav-services">خدماتنا</a></li>
                     <li><a onclick="showPage('about')" id="nav-about">من نحن</a></li>
                 </ul>
             </nav>
-            <div class="contact-short">
-                <button class="btn-gold" style="padding: 8px 20px; font-size: 0.8rem;" onclick="showPage('order')">ابدأ مشروعك</button>
-            </div>
+            <button class="btn-gold" style="padding: 10px 24px; font-size: 0.9rem;" onclick="showPage('order')">ابدأ مشروعك</button>
         </div>
     </header>
 
@@ -369,250 +358,303 @@
         <section class="hero">
             <div class="container hero-flex">
                 <div class="hero-text">
-                    <h1>نصنع للهوية <span style="color:var(--gold)">بصمة</span> لا تُنسى</h1>
-                    <h2>في RAF DESIGN، ندمج الفن بالتكنولوجيا لنخلق تجارب رقمية وبصرية استثنائية تنقل مشروعك للعالمية.</h2>
-                    <div style="display:flex; gap:15px;">
-                        <button class="btn-gold" onclick="showPage('services')">استكشف خدماتنا</button>
-                        <button class="btn-gold" style="background:white; color:var(--primary-purple); border:1px solid #eee;" onclick="showPage('about')">من نحن</button>
+                    <h1>حوّل رؤيتك إلى <span style="color:var(--gold)">واقع بصري</span> مذهل</h1>
+                    <p>نحن نصمم الهويات وننتج المحتوى الذي يجعل علامتك التجارية تبرز في سوق مزدحم.</p>
+                    <div style="display: flex; gap: 15px;">
+                        <button class="btn-gold" onclick="showPage('portfolio')">مشاهدة الأعمال</button>
+                        <button class="btn-gold" style="background: white; color: var(--primary-purple); box-shadow: none; border: 2px solid var(--primary-purple);" onclick="showPage('about')">تعرف علينا</button>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=1471&auto=format&fit=crop" alt="Creative Design">
+                    <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" alt="التسويق الرقمي والتصميم" onerror="this.src='https://placehold.co/800x600/4b164c/ffffff?text=RAF+DESIGN'">
                 </div>
             </div>
         </section>
 
-        <section class="container" style="padding: 80px 0;">
-            <div style="text-align:center; margin-bottom:60px;">
-                <h2 style="font-size:2.5rem; color:var(--primary-purple);">ماذا نقدم لك؟</h2>
-                <div style="width:80px; height:4px; background:var(--gold); margin:15px auto;"></div>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                <div class="service-card">
-                    <i class="fas fa-camera-retro"></i>
-                    <h3>إنتاج المحتوى البصري</h3>
-                    <p style="color:#666; margin:15px 0;">تصوير احترافي للمنتجات، فيديوهات إعلانية، ومونتاج سينمائي يبرز أدق التفاصيل.</p>
-                    <button class="btn-gold" style="padding:8px 20px;" onclick="openOrder('تصوير وفيديو')">اطلب الآن</button>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-wand-magic-sparkles"></i>
-                    <h3>تصميم الهوية البصرية</h3>
-                    <p style="color:#666; margin:15px 0;">تصميم شعارات، بروفايلات شركات، ومنشورات سوشيال ميديا مبتكرة تعكس قيمك.</p>
-                    <button class="btn-gold" style="padding:8px 20px;" onclick="openOrder('تصميم جرافيك')">اطلب الآن</button>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-code"></i>
-                    <h3>التطوير والحلول التقنية</h3>
-                    <p style="color:#666; margin:15px 0;">بناء مواقع إلكترونية سريعة، متجاوبة، وسهلة الاستخدام لتعزيز تواجدك الرقمي.</p>
-                    <button class="btn-gold" style="padding:8px 20px;" onclick="openOrder('برمجة مواقع')">اطلب الآن</button>
-                </div>
+        <!-- Stats Section -->
+        <section style="padding: 60px 0; background: var(--primary-purple); color: white;">
+            <div class="container" style="display: flex; justify-content: space-around; text-align: center; flex-wrap: wrap; gap: 30px;">
+                <div><h3 style="font-size: 3rem; color: var(--gold);">+150</h3><p>عميل سعيد</p></div>
+                <div><h3 style="font-size: 3rem; color: var(--gold);">+300</h3><p>مشروع منجز</p></div>
+                <div><h3 style="font-size: 3rem; color: var(--gold);">5</h3><p>سنوات خبرة</p></div>
+                <div><h3 style="font-size: 3rem; color: var(--gold);">24/7</h3><p>دعم فني</p></div>
             </div>
         </section>
+    </main>
+
+    <!-- Portfolio Page -->
+    <main id="portfolio-page" class="page">
+        <div class="container" style="padding: 80px 0;">
+            <div class="section-title">
+                <h2>معرض أعمالنا</h2>
+                <p>نفتخر بمشاركة مجموعة مختارة من المشاريع التي قمنا بتنفيذها لشركائنا.</p>
+            </div>
+            
+            <div class="portfolio-grid">
+                <div class="portfolio-item" onclick="openOrder('تصميم هوية')">
+                    <img src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800" alt="تصميم هوية بصرية" onerror="this.src='https://placehold.co/800x600/c9a050/ffffff?text=Identity+Design'">
+                    <div class="portfolio-overlay">
+                        <h4>تصميم هوية بصرية</h4>
+                        <p>بناء علامة تجارية متكاملة</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" onclick="openOrder('إنتاج فيديو')">
+                    <img src="https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=800" alt="إنتاج فيديو إعلاني" onerror="this.src='https://placehold.co/800x600/4b164c/ffffff?text=Video+Production'">
+                    <div class="portfolio-overlay">
+                        <h4>إنتاج فيديو إعلاني</h4>
+                        <p>تصوير وإخراج سينمائي</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" onclick="openOrder('تصميم سوشيال ميديا')">
+                    <img src="https://images.pexels.com/photos/6078126/pexels-photo-6078126.jpeg?auto=compress&cs=tinysrgb&w=800" alt="إدارة سوشيال ميديا" onerror="this.src='https://placehold.co/800x600/c9a050/ffffff?text=Social+Media'">
+                    <div class="portfolio-overlay">
+                        <h4>إدارة سوشيال ميديا</h4>
+                        <p>محتوى بصري متفاعل</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" onclick="openOrder('تصميم شعار')">
+                    <img src="https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg?auto=compress&cs=tinysrgb&w=800" alt="تصميم شعار احترافي" onerror="this.src='https://placehold.co/800x600/4b164c/ffffff?text=Logo+Design'">
+                    <div class="portfolio-overlay">
+                        <h4>تصميم شعار احترافي</h4>
+                        <p>بساطة تعبر عن القوة</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Services Page -->
     <main id="services-page" class="page">
-        <div class="container" style="padding: 80px 0; text-align: center;">
-            <h2 style="font-size: 2.5rem; color: var(--primary-purple);">خدماتنا الإبداعية</h2>
-            <p style="margin-top: 20px; color: #666;">نحن هنا لتقديم أفضل الحلول الرقمية لمشروعك.</p>
-        </div>
+        <section class="services-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>خدماتنا الاحترافية</h2>
+                    <p>نقدم حلولاً متكاملة تغطي كافة احتياجاتك التسويقية والبصرية.</p>
+                </div>
+
+                <div class="service-full-card">
+                    <div class="service-img-wrapper">
+                        <img src="https://images.pexels.com/photos/2982449/pexels-photo-2982449.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="إنتاج فيديو إعلاني" onerror="this.src='https://placehold.co/1000x600/4b164c/ffffff?text=Video+Production'">
+                    </div>
+                    <div class="service-info">
+                        <i class="fas fa-video"></i>
+                        <h3>الإنتاج البصري والسينمائي</h3>
+                        <p>نمتلك أحدث معدات التصوير لإنتاج فيديوهات ترويجية ومقاطع ريلز احترافية ترفع من قيمة منتجك وتجذب عملائك.</p>
+                        <button class="btn-gold" onclick="openOrder('إنتاج بصري')">اطلب الخدمة الآن</button>
+                    </div>
+                </div>
+
+                <div class="service-full-card">
+                    <div class="service-img-wrapper">
+                        <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="تصميم جرافيك وهوية بصرية" onerror="this.src='https://placehold.co/1000x600/c9a050/ffffff?text=Graphic+Design'">
+                    </div>
+                    <div class="service-info">
+                        <i class="fas fa-bezier-curve"></i>
+                        <h3>تصميم الهوية والجرافيك</h3>
+                        <p>نصمم لك هوية بصرية كاملة تعبر عن فلسفة عملك وتترك انطباعاً قوياً ومستداماً لدى عملائك المستهدفين.</p>
+                        <button class="btn-gold" onclick="openOrder('تصميم جرافيك')">اطلب الخدمة الآن</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- About Page -->
     <main id="about-page" class="page">
-        <div class="container" style="padding: 100px 0; text-align:center; max-width:800px;">
-            <i class="fas fa-quote-right fa-3x" style="color:var(--gold); margin-bottom:30px;"></i>
-            <h2 style="font-size:2.5rem; margin-bottom:20px;">شغفنا هو نجاحك</h2>
-            <p style="font-size:1.2rem; color:#555;">بدأت RAF DESIGN كفكرة طموحة لتقديم جودة عالمية بأيدي محلية. نحن فريق من المصممين، المبرمجين، والمصورين الذين يؤمنون أن لكل مشروع قصة تستحق أن تروى بأجمل طريقة ممكنة.</p>
+        <div class="container" style="padding: 100px 0;">
+            <div class="hero-flex">
+                <div class="hero-image" style="flex: 0.8;">
+                    <img src="https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="فريق العمل المبدع" onerror="this.src='https://placehold.co/1000x800/4b164c/ffffff?text=About+Us'">
+                </div>
+                <div class="hero-text">
+                    <h2 style="color: var(--primary-purple); font-size: 2.5rem; margin-bottom: 20px;">من نحن؟</h2>
+                    <p>بدأت حكاية RAF DESIGN من شغف بالإبداع الرقمي، لنتحول إلى فريق متكامل يضم مصممين، مصورين، وخبراء تسويق. نحن هنا لنأخذ بيدك في رحلة التحول الرقمي، محولين الأفكار البسيطة إلى براندات قوية.</p>
+                    <div style="background: var(--bg-gray); padding: 30px; border-radius: 20px; border-right: 5px solid var(--gold);">
+                        <p style="font-style: italic; color: var(--primary-purple); font-weight: 600;">"نحن لا نبيع تصاميم، نحن نصنع مستقبلاً لعلامتك التجارية."</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
-
-    <div id="dynamic-pages"></div>
 
     <!-- Order Page -->
     <main id="order-page" class="page">
-        <div class="container">
-            <div class="order-container">
-                <h2 style="text-align:center; margin-bottom:10px;">طلب خدمة جديدة</h2>
-                <p style="text-align:center; color:var(--gold); margin-bottom:40px; font-weight:700;" id="target-service-display"></p>
-                <form onsubmit="handleOrder(event)">
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
-                        <div class="form-group"><label>الاسم الأول</label><input type="text" id="order-fn" required></div>
-                        <div class="form-group"><label>اللقب</label><input type="text" id="order-ln" required></div>
-                    </div>
-                    <div class="form-group"><label>رقم الهاتف</label><input type="tel" id="order-tel" placeholder="05xxxxxxxx" required></div>
-                    <div class="form-group">
-                        <label>تفاصيل المشروع</label>
-                        <textarea id="order-desc" rows="4" placeholder="اشرح لنا باختصار ما الذي تحتاجه..."></textarea>
-                    </div>
-                    <button type="submit" class="btn-gold" style="width:100%; margin-top:20px;">إرسال عبر واتساب <i class="fab fa-whatsapp"></i></button>
-                </form>
+        <div class="container" style="padding: 80px 0;">
+            <div style="max-width: 700px; margin: 0 auto; background: white; padding: 50px; border-radius: 40px; box-shadow: 0 40px 100px rgba(0,0,0,0.08);">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <h2 id="order-title">بدء مشروع جديد</h2>
+                    <p>يرجى تزويدنا بالتفاصيل الأولية وسنتواصل معك في أقرب وقت.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" id="order-name" placeholder="مثلاً: محمد علي">
+                </div>
+                <div class="form-group">
+                    <label>رقم الواتساب</label>
+                    <input type="tel" id="order-phone" placeholder="06XXXXXXXX">
+                </div>
+                <div class="form-group">
+                    <label>تفاصيل المشروع</label>
+                    <textarea id="order-details" rows="5" placeholder="ما هي أهدافك؟ هل لديك هوية حالية؟"></textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px;">
+                    <button class="btn-gold" style="background: var(--whatsapp-green); box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);" onclick="sendOrder('whatsapp')">
+                        واتساب <i class="fab fa-whatsapp" style="margin-right: 8px;"></i>
+                    </button>
+                    <button class="btn-gold" style="background: var(--instagram-pink); box-shadow: 0 10px 20px rgba(225, 48, 108, 0.3);" onclick="sendOrder('instagram')">
+                        إنستغرام <i class="fab fa-instagram" style="margin-right: 8px;"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </main>
 
+    <!-- Modal UI -->
+    <div id="custom-modal">
+        <div class="modal-content">
+            <i id="modal-icon" class="fas fa-check-circle" style="font-size: 4rem; color: var(--gold); margin-bottom: 20px;"></i>
+            <h3 id="modal-title" style="margin-bottom: 10px;">تم بنجاح</h3>
+            <p id="modal-message" style="color: var(--text-light); margin-bottom: 25px;">تم تنفيذ العملية بنجاح.</p>
+            <button class="btn-gold" style="width: 100%;" onclick="closeModal()">موافق</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="toggle-admin-btn" onclick="openAdminGate()"><i class="fas fa-lock"></i></div>
+    <div id="admin-edit-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h3 style="font-size: 1.1rem;">لوحة التحكم</h3>
+            <i class="fas fa-times" onclick="closeAdmin()" style="cursor:pointer; color: var(--text-light);"></i>
+        </div>
+        <div class="form-group"><label>اسم البراند</label><input type="text" id="brand-input"></div>
+        <div class="form-group"><label>رقم الواتساب</label><input type="text" id="phone-input"></div>
+        <div class="form-group"><label>رابط انستغرام</label><input type="text" id="insta-input"></div>
+        <button class="btn-gold" style="width:100%;" onclick="saveAdminChanges()">تحديث الموقع</button>
+    </div>
+
     <footer>
         <div class="container">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:30px;">
-                <div>
-                    <h3 style="color:var(--gold); margin-bottom:10px;">RAF DESIGN</h3>
-                    <p style="font-size:0.9rem; color:#aaa;">نحول الخيال إلى واقع رقمي ملموس.</p>
-                    <p id="footer-phone" style="font-size: 0.9rem; margin-top: 10px; color: var(--gold);"></p>
-                </div>
-                <div class="footer-socials">
-                    <a href="#" id="display-fb"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/rafik342158?igsh=MXg3ejdwOTA5NjYzcQ==" id="display-ig" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="#" id="display-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                </div>
+            <div class="social-links">
+                <a href="#" id="footer-wa" class="social-btn wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" id="footer-ig" class="social-btn ig" target="_blank"><i class="fab fa-instagram"></i></a>
             </div>
-            <div style="border-top:1px solid #333; margin-top:40px; padding-top:20px; text-align:center; font-size:0.8rem; color:#666;">
-                &copy; 2024 RAF DESIGN. جميع الحقوق محفوظة.
-            </div>
+            <p>&copy; 2024 <span id="footer-brand-name">RAF DESIGN</span>. صنع بكل حب في الجزائر.</p>
         </div>
     </footer>
 
     <script>
-        // البيانات الافتراضية بناءً على طلبك
-        const DEFAULT_CODE = "RAFIK20069";
-        const MY_PHONE = "0696287105";
-        const MY_INSTA = "https://www.instagram.com/rafik342158?igsh=MXg3ejdwOTA5NjYzcQ==";
+        const DEFAULT_PHONE = "0696287105";
+        const DEFAULT_INSTA = "https://www.instagram.com/rafik342158";
+        let selectedService = "استشارة عامة";
 
-        let customTabs = JSON.parse(localStorage.getItem('site_tabs')) || [];
-        let currentService = "عام";
-
-        // Auth & Admin
-        function checkAdminAccess() { document.getElementById('auth-modal').style.display = 'flex'; }
-        function closeAuth() { document.getElementById('auth-modal').style.display = 'none'; }
-        
-        function verifyAdmin() {
-            const input = document.getElementById('admin-pass-input').value;
-            const savedCode = localStorage.getItem('adminCode') || DEFAULT_CODE;
-            if (input === savedCode) {
-                closeAuth();
-                openAdminPanel();
-            } else {
-                alert("الكود السري غير صحيح!");
-            }
-        }
-
-        function openAdminPanel() {
-            document.getElementById('admin-edit-panel').style.display = 'block';
-            document.getElementById('edit-logo-text').value = localStorage.getItem('site_logo_text') || "RAF DESIGN";
-            document.getElementById('edit-logo-url').value = localStorage.getItem('site_logo_url') || "";
-            document.getElementById('edit-fb-url').value = localStorage.getItem('site_fb') || "#";
-            document.getElementById('edit-ig-url').value = localStorage.getItem('site_ig') || MY_INSTA;
-            document.getElementById('edit-phone').value = localStorage.getItem('site_phone') || MY_PHONE;
-            renderAdminTabs();
-        }
-
-        function renderAdminTabs() {
-            const list = document.getElementById('tabs-list-admin');
-            list.innerHTML = "";
-            customTabs.forEach((tab, index) => {
-                list.innerHTML += `
-                    <div style="display:flex; gap:8px; margin-bottom:8px;">
-                        <input type="text" value="${tab}" onchange="updateTabName(${index}, this.value)" style="flex:1; padding:5px; font-size:0.8rem;">
-                        <i class="fas fa-trash" onclick="removeTab(${index})" style="color:red; cursor:pointer; align-self:center;"></i>
-                    </div>`;
-            });
-        }
-
-        function addNewTabPrompt() {
-            const name = prompt("اسم الصفحة الجديدة:");
-            if(name) { customTabs.push(name); renderAdminTabs(); }
-        }
-        function updateTabName(index, val) { customTabs[index] = val; }
-        function removeTab(index) { customTabs.splice(index, 1); renderAdminTabs(); }
-
-        function saveAllSiteChanges() {
-            localStorage.setItem('site_logo_text', document.getElementById('edit-logo-text').value);
-            localStorage.setItem('site_logo_url', document.getElementById('edit-logo-url').value);
-            localStorage.setItem('site_fb', document.getElementById('edit-fb-url').value);
-            localStorage.setItem('site_ig', document.getElementById('edit-ig-url').value);
-            localStorage.setItem('site_phone', document.getElementById('edit-phone').value);
-            localStorage.setItem('site_tabs', JSON.stringify(customTabs));
-
-            alert("تم حفظ الإعدادات بنجاح!");
-            location.reload();
-        }
-
-        function closeAdminPanel() { document.getElementById('admin-edit-panel').style.display = 'none'; }
-
-        // Navigation
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
             
-            const target = document.getElementById(pageId + '-page');
-            if(target) target.classList.add('active');
+            const page = document.getElementById(pageId + '-page');
+            if(page) page.classList.add('active');
             
-            const nav = document.getElementById('nav-' + pageId);
-            if(nav) nav.classList.add('active');
-            window.scrollTo({top: 0, behavior: 'smooth'});
+            const navLink = document.getElementById('nav-' + pageId);
+            if(navLink) navLink.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function openOrder(serviceName) {
-            currentService = serviceName;
-            document.getElementById('target-service-display').innerText = "الخدمة المختارة: " + serviceName;
+            selectedService = serviceName;
+            document.getElementById('order-title').innerText = "طلب خدمة: " + serviceName;
             showPage('order');
         }
 
-        function handleOrder(e) {
-            e.preventDefault();
-            const fn = document.getElementById('order-fn').value;
-            const ln = document.getElementById('order-ln').value;
-            const tel = document.getElementById('order-tel').value;
-            const desc = document.getElementById('order-desc').value;
-            
-            // تحويل الرقم لصيغة دولية للواتساب
-            let rawPhone = localStorage.getItem('site_phone') || MY_PHONE;
-            let formattedPhone = rawPhone.startsWith('0') ? '213' + rawPhone.substring(1) : rawPhone;
-
-            const msg = `مرحباً RAF DESIGN،\nأود طلب خدمة: ${currentService}\n\nالاسم: ${fn} ${ln}\nالهاتف: ${tel}\nالتفاصيل: ${desc}`;
-            const waUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(msg)}`;
-            
-            window.open(waUrl, '_blank');
+        function getFormattedPhone() {
+            const targetPhone = localStorage.getItem('site_phone') || DEFAULT_PHONE;
+            let cleanedPhone = targetPhone.replace(/\s/g, '');
+            if(cleanedPhone.startsWith('0')) cleanedPhone = '213' + cleanedPhone.substring(1);
+            return cleanedPhone;
         }
 
-        // Init
-        window.onload = () => {
-            const logoText = localStorage.getItem('site_logo_text') || "RAF DESIGN";
-            const logoUrl = localStorage.getItem('site_logo_url');
-            
-            if(logoUrl) {
-                const img = document.getElementById('display-logo-img');
-                img.src = logoUrl;
-                img.style.display = "block";
-                document.getElementById('display-logo-wrapper').style.display = "none";
-            } else {
-                document.getElementById('display-logo-text').innerText = logoText;
+        function showModal(title, message, icon = 'fa-check-circle', color = '#c9a050') {
+            const modal = document.getElementById('custom-modal');
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            const iconEl = document.getElementById('modal-icon');
+            iconEl.className = `fas ${icon}`;
+            iconEl.style.color = color;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('custom-modal').style.display = 'none';
+        }
+
+        function sendOrder(platform) {
+            const name = document.getElementById('order-name').value;
+            const phone = document.getElementById('order-phone').value;
+            const details = document.getElementById('order-details').value;
+
+            if(!name || !phone || !details) {
+                showModal("عذراً", "يرجى تعبئة كافة الحقول لنتمكن من مساعدتك.", "fa-exclamation-triangle", "#e74c3c");
+                return;
             }
 
-            const currentPhone = localStorage.getItem('site_phone') || MY_PHONE;
-            const currentInsta = localStorage.getItem('site_ig') || MY_INSTA;
+            const message = `طلب مشروع جديد 🚀:\n\n✨ الخدمة: ${selectedService}\n👤 العميل: ${name}\n📞 الهاتف: ${phone}\n📝 التفاصيل: ${details}`;
 
-            document.getElementById('display-fb').href = localStorage.getItem('site_fb') || "#";
-            document.getElementById('display-ig').href = currentInsta;
-            document.getElementById('footer-phone').innerText = "هاتف: " + currentPhone;
+            if(platform === 'whatsapp') {
+                window.open(`https://wa.me/${getFormattedPhone()}?text=${encodeURIComponent(message)}`, '_blank');
+            } else {
+                const instaLink = localStorage.getItem('site_insta') || DEFAULT_INSTA;
+                const textArea = document.createElement("textarea");
+                textArea.value = message;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showModal("تم النسخ", "تم نسخ تفاصيل طلبك. سيفتح انستغرام الآن، يرجى لصق الرسالة وإرسالها لنا.", "fa-copy");
+                    setTimeout(() => window.open(instaLink, '_blank'), 2000);
+                } catch (err) {
+                    window.open(instaLink, '_blank');
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function openAdminGate() {
+            const pass = prompt("الوصول للمسؤول فقط - أدخل الكود:");
+            if(pass === "RAFIK20069") {
+                document.getElementById('admin-edit-panel').style.display = 'block';
+                document.getElementById('brand-input').value = document.getElementById('display-logo-text').innerText;
+                document.getElementById('phone-input').value = localStorage.getItem('site_phone') || DEFAULT_PHONE;
+                document.getElementById('insta-input').value = localStorage.getItem('site_insta') || DEFAULT_INSTA;
+            }
+        }
+
+        function closeAdmin() { 
+            document.getElementById('admin-edit-panel').style.display = 'none'; 
+        }
+
+        function saveAdminChanges() {
+            localStorage.setItem('site_brand', document.getElementById('brand-input').value);
+            localStorage.setItem('site_phone', document.getElementById('phone-input').value);
+            localStorage.setItem('site_insta', document.getElementById('insta-input').value);
+            showModal("نجاح", "تم تحديث بيانات الموقع بنجاح.");
+            setTimeout(() => location.reload(), 1500);
+        }
+
+        function initialize() {
+            const phone = getFormattedPhone();
+            const insta = localStorage.getItem('site_insta') || DEFAULT_INSTA;
+            const brand = localStorage.getItem('site_brand') || "RAF DESIGN";
             
-            let waPhone = currentPhone.startsWith('0') ? '213' + currentPhone.substring(1) : currentPhone;
-            document.getElementById('display-wa').href = `https://wa.me/${waPhone}`;
+            document.getElementById('footer-wa').href = `https://wa.me/${phone}`;
+            document.getElementById('footer-ig').href = insta;
+            document.getElementById('display-logo-text').innerText = brand;
+            document.getElementById('footer-brand-name').innerText = brand;
+            document.title = `${brand} | إبداع بلا حدود`;
+        }
 
-            const navUl = document.getElementById('main-nav');
-            const dynamicPages = document.getElementById('dynamic-pages');
-            customTabs.forEach(tab => {
-                const id = "tab-" + tab.replace(/\s/g, '');
-                navUl.innerHTML += `<li><a onclick="showPage('${id}')" id="nav-${id}">${tab}</a></li>`;
-                dynamicPages.innerHTML += `
-                    <main id="${id}-page" class="page">
-                        <div class="container" style="padding:100px 0; text-align:center;">
-                            <h2 style="font-size:3rem; color:var(--primary-purple);">${tab}</h2>
-                            <p style="margin-top:20px; color:#666;">سيتم إضافة المحتوى الخاص بـ ${tab} قريباً.</p>
-                            <button class="btn-gold" style="margin-top:30px;" onclick="showPage('home')">العودة للرئيسية</button>
-                        </div>
-                    </main>`;
-            });
-        };
+        window.onload = initialize;
     </script>
 </body>
 </html>
