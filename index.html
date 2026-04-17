@@ -7,7 +7,7 @@
     <!-- Font Awesome للأيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
 
         :root {
             --primary-purple: #4b164c;
@@ -15,9 +15,9 @@
             --gold: #c9a050;
             --gold-light: #e0bc75;
             --bg-gray: #f8f9fa;
-            --text-dark: #333;
+            --text-dark: #222;
             --white: #ffffff;
-            --danger: #e74c3c;
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -25,12 +25,13 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
             background-color: var(--white);
             color: var(--text-dark);
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
         }
 
@@ -42,9 +43,10 @@
 
         /* Header & Navigation */
         header {
-            background: var(--white);
-            padding: 15px 0;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -59,225 +61,256 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
         }
 
-        #display-logo-img {
+        #site-logo-img {
             max-height: 50px;
-            width: auto;
-            border-radius: 5px;
+            max-width: 150px;
+            object-fit: contain;
+            display: none;
         }
 
         .logo-box {
             background: linear-gradient(135deg, var(--gold), var(--primary-purple));
             color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.2rem;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(201, 160, 80, 0.3);
         }
 
         .logo-text {
             color: var(--primary-purple);
-            font-weight: 700;
-            font-size: 1.4rem;
-            letter-spacing: 1px;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
         }
 
         nav ul {
             display: flex;
             list-style: none;
-            gap: 20px;
-            flex-wrap: wrap;
+            gap: 25px;
         }
 
         nav ul li a {
             text-decoration: none;
             color: var(--text-dark);
             font-weight: 600;
-            transition: 0.3s;
+            transition: var(--transition);
             cursor: pointer;
-            padding: 5px 10px;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            right: 0;
+            background-color: var(--gold);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover:after, nav ul li a.active:after {
+            width: 100%;
         }
 
         nav ul li a:hover, nav ul li a.active {
             color: var(--gold);
-            border-bottom: 2px solid var(--gold);
         }
 
         /* Page System */
         .page {
             display: none;
-            animation: fadeIn 0.4s ease-in-out;
-            padding-bottom: 50px;
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 80vh;
         }
 
         .page.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Sections Styling */
-        .hero { padding: 60px 0; background-color: var(--bg-gray); }
-        .hero-flex { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+        /* Hero Styling */
+        .hero { padding: 80px 0; background: linear-gradient(to left, #fdfdfd, #f4f4f4); }
+        .hero-flex { display: flex; align-items: center; justify-content: space-between; gap: 50px; flex-wrap: wrap; }
         .hero-text { flex: 1; min-width: 300px; }
-        .hero-image { flex: 1; min-width: 300px; text-align: center; }
-        .hero-image img { width: 100%; border-radius: 20px; box-shadow: 20px 20px 0 var(--gold); }
-        .hero-text h1 { color: var(--primary-purple); font-size: 3rem; line-height: 1.2; }
+        .hero-image { flex: 1; min-width: 300px; position: relative; }
+        .hero-image img { 
+            width: 100%; 
+            border-radius: 30px; 
+            box-shadow: 30px 30px 0 var(--gold);
+            transition: var(--transition);
+        }
+        
+        .hero-text h1 { color: var(--primary-purple); font-size: 3.5rem; line-height: 1.1; margin-bottom: 15px; }
+        .hero-text h2 { color: var(--gold); font-size: 1.8rem; margin-bottom: 25px; }
 
-        .section-header { text-align: center; margin: 40px 0; }
-        .btn-gold { background: var(--gold); color: white; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-gold:hover { background: var(--gold-light); transform: scale(1.05); }
+        .btn-gold { 
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: white; 
+            padding: 14px 35px; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            font-size: 1.1rem;
+            transition: var(--transition); 
+            box-shadow: 0 10px 20px rgba(201, 160, 80, 0.2);
+        }
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(201, 160, 80, 0.3); }
 
-        /* About Detailed Sections */
-        .about-item {
+        /* About Section (New Layout) */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        .about-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            text-align: right;
+            border-bottom: 4px solid transparent;
+        }
+        .about-card:hover {
+            transform: translateY(-10px);
+            border-bottom-color: var(--gold);
+        }
+        .about-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .about-card-content {
+            padding: 25px;
+        }
+        .about-card h3 {
+            color: var(--primary-purple);
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 50px;
-            margin-bottom: 80px;
-            flex-wrap: wrap;
+            gap: 10px;
         }
-        .about-item:nth-child(even) { flex-direction: row-reverse; }
-        .about-item-img { flex: 1; min-width: 300px; }
-        .about-item-img img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .about-item-text { flex: 1.2; min-width: 300px; }
-        .about-item-text h3 { color: var(--primary-purple); font-size: 1.8rem; margin-bottom: 15px; border-right: 5px solid var(--gold); padding-right: 15px; }
-        .about-item-text p { font-size: 1.1rem; color: #555; text-align: justify; }
+        .about-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
 
-        /* Order Form */
-        .order-container {
-            max-width: 700px;
-            margin: 50px auto;
-            background: white;
-            padding: 35px;
-            border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-            border-top: 6px solid var(--gold);
+        /* Form Styling */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--primary-purple); }
+        .form-group input, .form-group textarea { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid #f0f0f0; 
+            border-radius: 10px; 
+            outline: none;
+            transition: var(--transition);
         }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--primary-purple); }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Cairo', sans-serif; }
-        .form-group textarea { resize: vertical; min-height: 120px; }
+        .form-group input:focus { border-color: var(--gold); }
 
-        /* Admin UI */
-        #toggle-admin-btn {
-            position: fixed; bottom: 25px; right: 25px; background: var(--gold);
-            color: white; width: 55px; height: 55px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            z-index: 2000; box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
+        /* Admin Panel Overlay */
         .admin-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); display: none; justify-content: center;
-            align-items: center; z-index: 3000;
+            background: rgba(0,0,0,0.7); display: none; justify-content: center;
+            align-items: center; z-index: 3000; backdrop-filter: blur(5px);
         }
-        .admin-modal { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; }
-        
+
+        /* Admin Panel */
         #admin-panel {
-            position: fixed; top: 0; left: 0; width: 400px; height: 100%;
+            position: fixed; top: 0; left: 0; width: 450px; height: 100%;
             background: white; z-index: 4000; display: none; flex-direction: column;
-            box-shadow: 5px 0 25px rgba(0,0,0,0.2); border-right: 5px solid var(--gold);
-            overflow-y: auto; padding: 25px;
+            box-shadow: 10px 0 40px rgba(0,0,0,0.1); border-right: 6px solid var(--gold);
+            overflow-y: auto; padding: 30px;
         }
-        .admin-section { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-right: 4px solid var(--primary-purple); }
-        .admin-section h4 { color: var(--gold); margin-bottom: 10px; font-size: 1rem; }
+        .admin-section { background: #fcfcfc; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #eee; }
+        .admin-section h4 { color: var(--primary-purple); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
 
         /* Footer */
-        footer { background: var(--primary-purple); color: white; padding: 50px 0 20px; }
-        .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-        .social-icons a { color: white; margin-right: 15px; font-size: 1.5rem; transition: 0.3s; }
-        .social-icons a:hover { color: var(--gold); }
+        footer { background: var(--secondary-purple); color: white; padding: 60px 0 30px; }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; margin-bottom: 30px; }
+        .social-links a { color: white; font-size: 1.5rem; margin-right: 15px; transition: var(--transition); }
+        .social-links a:hover { color: var(--gold); }
 
+        /* Responsive */
         @media (max-width: 768px) {
             #admin-panel { width: 100%; }
-            .hero-text h1 { font-size: 2.2rem; }
-            .about-item { gap: 20px; margin-bottom: 40px; }
+            nav ul { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- زر الوصول السريع -->
-    <div id="toggle-admin-btn" onclick="openAuthModal()">
+    <!-- زر الإعدادات -->
+    <div id="toggle-admin-btn" style="position: fixed; bottom: 30px; right: 30px; background: var(--primary-purple); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2000; box-shadow: 0 10px 25px rgba(0,0,0,0.2);" onclick="openAuthModal()">
         <i class="fas fa-cog fa-lg"></i>
     </div>
 
-    <!-- نافذة طلب الكود -->
+    <!-- نافذة الدخول -->
     <div id="auth-modal" class="admin-modal-overlay">
-        <div class="admin-modal">
-            <h3 style="text-align:center; margin-bottom:20px; color:var(--primary-purple)">دخول المشرف</h3>
+        <div class="admin-modal" style="background: white; padding: 40px; border-radius: 20px; width: 90%; max-width: 400px;">
+            <h3 style="text-align:center; margin-bottom:20px;">دخول لوحة التحكم</h3>
             <div class="form-group">
-                <input type="password" id="auth-input" placeholder="أدخل الكود السري">
+                <input type="password" id="auth-input" placeholder="الكود السري">
             </div>
             <button class="btn-gold" style="width:100%" onclick="checkAccess()">دخول</button>
-            <button onclick="closeModal('auth-modal')" style="width:100%; margin-top:10px; background:none; border:none; color:#777; cursor:pointer;">إلغاء</button>
+            <button onclick="closeModal('auth-modal')" style="width:100%; margin-top:10px; background:none; border:none; color:#888; cursor:pointer;">إلغاء</button>
         </div>
     </div>
 
-    <!-- لوحة التحكم الكاملة -->
+    <!-- لوحة التحكم -->
     <div id="admin-panel">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <h2 style="color:var(--primary-purple)">إعدادات الموقع</h2>
-            <i class="fas fa-times fa-lg" style="cursor:pointer" onclick="closeAdmin()"></i>
+            <h2>إعدادات الموقع</h2>
+            <button onclick="closeAdmin()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
         </div>
 
-        <!-- 1. الشعار والهوية -->
         <div class="admin-section">
-            <h4><i class="fas fa-id-card"></i> الشعار والهوية</h4>
+            <h4><i class="fas fa-image"></i> الشعار (Logo)</h4>
             <div class="form-group">
-                <label>اسم الموقع (نص)</label>
+                <label>رفع ملف الشعار</label>
+                <input type="file" id="admin-logo-upload" accept="image/*" onchange="previewLogo(this)">
+            </div>
+            <div class="form-group">
+                <label>اسم الموقع</label>
                 <input type="text" id="admin-logo-text">
             </div>
-            <div class="form-group">
-                <label>رابط اللوجو (صورة)</label>
-                <input type="text" id="admin-logo-url" placeholder="https://image-link.com/logo.png">
-                <small style="color:#888; font-size: 0.75rem;">اتركه فارغاً لاعتماد النص فقط</small>
-            </div>
         </div>
 
-        <!-- 2. التواصل والروابط -->
         <div class="admin-section">
-            <h4><i class="fas fa-link"></i> روابط التواصل</h4>
-            <div class="form-group">
-                <label>رابط فيسبوك</label>
-                <input type="text" id="admin-fb">
-            </div>
-            <div class="form-group">
-                <label>رابط انستغرام</label>
-                <input type="text" id="admin-ig">
-            </div>
-            <div class="form-group">
-                <label>رقم الهاتف</label>
-                <input type="text" id="admin-phone">
-            </div>
+            <h4><i class="fas fa-share-alt"></i> الروابط</h4>
+            <div class="form-group"><label>فيسبوك</label><input type="text" id="admin-fb-link"></div>
+            <div class="form-group"><label>إنستغرام</label><input type="text" id="admin-ig-link"></div>
+            <div class="form-group"><label>رقم واتساب</label><input type="text" id="admin-wa-link"></div>
         </div>
 
-        <!-- 3. التبويبات -->
-        <div class="admin-section">
-            <h4><i class="fas fa-list"></i> إدارة التبويبات</h4>
-            <div id="admin-tabs-container"></div>
-            <button onclick="addNewTab()" style="background:var(--primary-purple); color:white; border:none; width:100%; padding:8px; border-radius:5px; margin-top:10px; cursor:pointer">+ إضافة تبويب</button>
-        </div>
-
-        <!-- 4. الأمان -->
-        <div class="admin-section">
-            <h4><i class="fas fa-lock"></i> تغيير كود الدخول</h4>
-            <div class="form-group">
-                <input type="password" id="admin-new-pass" placeholder="الكود الجديد">
-            </div>
-        </div>
-
-        <button class="btn-gold" style="width:100%; padding:15px; font-size:1.1rem; margin-bottom:40px;" onclick="saveChanges()">حفظ وتطبيق</button>
+        <button class="btn-gold" style="width:100%; padding:18px;" onclick="saveChanges()">حفظ وتحديث</button>
     </div>
 
     <!-- Header -->
     <header>
         <div class="container nav-content">
+            <a href="#" class="logo" onclick="showPage('home')">
+                <img id="site-logo-img" src="" alt="Logo">
+                <div id="logo-text-wrapper" style="display: flex; align-items: center; gap: 10px;">
+                    <span class="logo-text" id="logo-txt">RAF DESIGN</span>
+                    <div class="logo-box">RG</div>
+                </div>
+            </a>
             <nav>
                 <ul id="navbar-links">
                     <li><a onclick="showPage('home')" id="nav-home" class="active">الرئيسية</a></li>
@@ -285,287 +318,226 @@
                     <li><a onclick="showPage('about')" id="nav-about">من نحن</a></li>
                 </ul>
             </nav>
-            <a href="#" class="logo" onclick="showPage('home')">
-                <div id="logo-render-area">
-                    <span class="logo-text" id="logo-txt">RAF DESIGN</span>
-                    <div class="logo-box">RG</div>
-                </div>
-            </a>
         </div>
     </header>
 
-    <!-- Pages Content -->
     <div id="pages-container">
-        
-        <!-- Home -->
+        <!-- الصفحة الرئيسية -->
         <main id="home-page" class="page active">
             <section class="hero">
                 <div class="container hero-flex">
                     <div class="hero-text">
-                        <h1 id="hero-title">RAF DESIGN:</h1>
-                        <h2>نصنع لمشروعك هوية بصرية لا تُنسى</h2>
-                        <p style="margin:20px 0; font-size:1.2rem;">نقدم لك حلولاً متكاملة في التصوير، التصميم، والبرمجة بأعلى المعايير العالمية.</p>
-                        <button class="btn-gold" onclick="showPage('services')">استكشف خدماتنا</button>
+                        <h1 id="hero-title">RAF DESIGN</h1>
+                        <h2>نحول الرؤية إلى واقع إبداعي</h2>
+                        <p style="font-size:1.2rem; color:#555; margin-bottom:35px;">نحن وكالة متكاملة متخصصة في التصميم والبرمجة والتصوير الاحترافي.</p>
+                        <button class="btn-gold" onclick="showPage('services')">ابدأ مشروعك</button>
                     </div>
                     <div class="hero-image">
-                        <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?q=80&w=1000" alt="إبداع راف ديزاين">
+                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000" alt="Creative Design">
                     </div>
                 </div>
             </section>
         </main>
 
-        <!-- Services -->
+        <!-- صفحة الخدمات -->
         <main id="services-page" class="page">
-            <div class="container">
-                <div class="section-header">
-                    <h2>خدماتنا الإبداعية</h2>
-                </div>
+            <div class="container" style="padding:80px 0;">
+                <h2 style="text-align:center; font-size:2.5rem; margin-bottom:50px;">خدماتنا الإبداعية</h2>
                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:30px;">
-                    <div style="background:var(--bg-gray); padding:30px; border-radius:20px; text-align:center;">
-                        <i class="fas fa-camera-retro fa-3x" style="color:var(--gold)"></i>
-                        <h3 style="margin:15px 0;">التصوير الاحترافي</h3>
-                        <p>تصوير منتجات، تصوير عقارات، وجلسات تصوير سينمائية.</p>
+                    <div style="background:white; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.05); text-align:center;">
+                        <i class="fas fa-palette fa-3x" style="color:var(--gold); margin-bottom:20px;"></i>
+                        <h3>تصميم الجرافيك</h3>
+                        <p>هوية بصرية كاملة وشعارات مبتكرة.</p>
+                        <button class="btn-gold" style="margin-top:20px;" onclick="openOrder('تصميم الجرافيك')">اطلب الآن</button>
+                    </div>
+                    <div style="background:white; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.05); text-align:center;">
+                        <i class="fas fa-camera fa-3x" style="color:var(--gold); margin-bottom:20px;"></i>
+                        <h3>التصوير الاحترافي</h3>
+                        <p>توثيق لحظاتكم ومنتجاتكم بأعلى جودة.</p>
                         <button class="btn-gold" style="margin-top:20px;" onclick="openOrder('التصوير')">اطلب الآن</button>
                     </div>
-                    <div style="background:var(--bg-gray); padding:30px; border-radius:20px; text-align:center;">
-                        <i class="fas fa-bezier-curve fa-3x" style="color:var(--primary-purple)"></i>
-                        <h3 style="margin:15px 0;">تصميم الجرافيك</h3>
-                        <p>شعارات، هويات بصرية، وتصاميم السوشيال ميديا.</p>
-                        <button class="btn-gold" style="margin-top:20px;" onclick="openOrder('التصميم')">اطلب الآن</button>
-                    </div>
-                    <div style="background:var(--bg-gray); padding:30px; border-radius:20px; text-align:center;">
-                        <i class="fas fa-code fa-3x" style="color:var(--gold)"></i>
-                        <h3 style="margin:15px 0;">برمجة المواقع</h3>
-                        <p>متاجر إلكترونية ومواقع تعريفية متوافقة مع جميع الأجهزة.</p>
-                        <button class="btn-gold" style="margin-top:20px;" onclick="openOrder('البرمجة')">اطلب الآن</button>
-                    </div>
                 </div>
             </div>
         </main>
 
-        <!-- About (UPDATED with Deep Descriptions) -->
+        <!-- صفحة من نحن (المحدثة) -->
         <main id="about-page" class="page">
-            <div class="container">
-                <div class="section-header">
-                    <h2>عن RAF DESIGN</h2>
-                    <p style="max-width:700px; margin:10px auto; color:#666;">نحن لسنا مجرد وكالة تصميم، نحن شركاء نجاح نسعى لتحويل أفكارك إلى واقع بصري ملموس.</p>
+            <div class="container" style="padding:80px 0;">
+                <div style="text-align:center; margin-bottom:60px;">
+                    <h2 style="font-size:3rem; color:var(--primary-purple); margin-bottom:20px;">عالم RAF DESIGN</h2>
+                    <p style="max-width:800px; margin:0 auto; font-size:1.1rem; color:#666;">
+                        نحن لسنا مجرد وكالة تصميم، نحن شركاء نجاحكم. نجمع بين الفن والتكنولوجيا لنقدم تجربة بصرية لا تُنسى في مختلف المجالات الإبداعية.
+                    </p>
                 </div>
 
-                <!-- Field 1: Photography -->
-                <div class="about-item">
-                    <div class="about-item-img">
-                        <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=800" alt="التصوير الفوتوغرافي الاحترافي">
+                <div class="about-grid">
+                    <!-- التصوير الفوتوغرافي -->
+                    <div class="about-card">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800" alt="التصوير الاحترافي">
+                        <div class="about-card-content">
+                            <h3><i class="fas fa-camera-retro"></i> التصوير الاحترافي</h3>
+                            <p>نقدم خدمات تصوير المنتجات، المناسبات، والتصوير المعماري باستخدام أحدث الكاميرات وتقنيات الإضاءة لإبراز أدق التفاصيل وجعل صورك تتحدث عنك.</p>
+                        </div>
                     </div>
-                    <div class="about-item-text">
-                        <h3>التصوير الاحترافي والسينمائي</h3>
-                        <p>في RAF DESIGN، نؤمن أن الصورة تغني عن ألف كلمة. نحن نتخصص في التقاط اللحظات والمنتجات بأحدث تقنيات الإضاءة والعدسات الاحترافية. سواء كنت تحتاج لتصوير منتجات التجارة الإلكترونية بأسلوب "Packshot" النظيف، أو تصوير عقاري يبرز زوايا الجمال، أو حتى إنتاج فيديو ترويجي سينمائي، فإن فريقنا يضمن لك دقة الألوان وحدة التفاصيل التي تجذب عين العميل من الوهلة الأولى.</p>
+
+                    <!-- تصميم الفيديوهات -->
+                    <div class="about-card">
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800" alt="تصميم الفيديوهات">
+                        <div class="about-card-content">
+                            <h3><i class="fas fa-video"></i> صناعة الأفلام والفيديوهات</h3>
+                            <p>من المونتاج السينمائي إلى فيديوهات الموشن جرافيك، نقوم بتحويل أفكارك إلى قصص بصرية مشوقة تخدم أهدافك التسويقية وتجذب جمهورك المستهدف.</p>
+                        </div>
+                    </div>
+
+                    <!-- تصميم المواقع -->
+                    <div class="about-card">
+                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800" alt="تصميم المواقع">
+                        <div class="about-card-content">
+                            <h3><i class="fas fa-laptop-code"></i> تصميم وبرمجة المواقع</h3>
+                            <p>نصمم مواقع ويب عصرية، متجاوبة مع كافة الشاشات، وسهلة الاستخدام. نركز على تجربة المستخدم (UI/UX) لضمان تحويل الزوار إلى عملاء دائمين.</p>
+                        </div>
+                    </div>
+
+                    <!-- تصميم الإشهارات -->
+                    <div class="about-card">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=800" alt="تصميم الإشهارات">
+                        <div class="about-card-content">
+                            <h3><i class="fas fa-ad"></i> تصميم الإشهارات والدعاية</h3>
+                            <p>نبتكر تصاميم إعلانية مبتكرة للسوشيال ميديا، والمطبوعات الورقية، واللوحات الإشهارية الضخمة، مع مراعاة الهوية البصرية وقوة الرسالة التسويقية.</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Field 2: Design -->
-                <div class="about-item">
-                    <div class="about-item-img">
-                        <img src="https://images.unsplash.com/photo-1561070791-26c11d69963d?q=80&w=800" alt="تصميم الجرافيك والهوية البصرية">
-                    </div>
-                    <div class="about-item-text">
-                        <h3>تصميم الهوية البصرية والجرافيك</h3>
-                        <p>الهوية البصرية هي روح مشروعك. نحن نقوم ببناء هويات متكاملة تبدأ من تصميم الشعار (Logo) المبتكر وصولاً إلى اختيار لوحة الألوان والخطوط التي تعكس قيم علامتك التجارية. نركز في تصاميمنا على البساطة والذكاء، مع ضمان أن تكون الهوية متوافقة مع كافة المطبوعات والمنصات الرقمية، مما يمنح مشروعك هيبة واحترافية لا تضاهى في السوق المنافس.</p>
-                    </div>
-                </div>
-
-                <!-- Field 3: Programming -->
-                <div class="about-item">
-                    <div class="about-item-img">
-                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800" alt="تطوير وبرمجة المواقع">
-                    </div>
-                    <div class="about-item-text">
-                        <h3>تطوير حلول الويب المبتكرة</h3>
-                        <p>عالمنا اليوم رقمي بامتياز، وموقعك الإلكتروني هو مقرك الرسمي على الشبكة. نحن نقوم ببرمجة وتطوير مواقع إلكترونية ليست فقط جميلة المظهر، بل سريعة الأداء، متوافقة مع محركات البحث (SEO)، وسهلة الاستخدام على جميع أحجام الشاشات. من المتاجر الإلكترونية المعقدة إلى صفحات الهبوط البسيطة، نستخدم أحدث لغات البرمجة لنضمن لك استقراراً تقنياً وتجربة مستخدم مثالية.</p>
-                    </div>
+                <div style="text-align:center; margin-top:60px;">
+                    <button class="btn-gold" onclick="showPage('services')">اكتشف خدماتنا بالتفصيل</button>
                 </div>
             </div>
         </main>
 
-        <!-- Order Form Page -->
+        <!-- صفحة الطلب -->
         <main id="order-page" class="page">
             <div class="container">
-                <div class="order-container">
-                    <h2 id="order-title" style="text-align:center; color:var(--primary-purple); margin-bottom:20px;">طلب الخدمة</h2>
+                <div style="max-width:600px; margin:60px auto; background:white; padding:40px; border-radius:20px; box-shadow:0 20px 50px rgba(0,0,0,0.1);">
+                    <h2 id="order-title" style="text-align:center; margin-bottom:30px;">تفاصيل الطلب</h2>
                     <form onsubmit="confirmOrder(event)">
                         <div class="form-group"><label>الاسم الكامل</label><input type="text" id="name" required></div>
                         <div class="form-group"><label>رقم الهاتف</label><input type="tel" id="tel" required></div>
-                        <div class="form-group"><label>الولاية / المنطقة</label><input type="text" id="loc" required></div>
-                        <div class="form-group"><label>حساب التواصل (انستجرام/فيسبوك)</label><input type="text" id="social-acc"></div>
-                        <div class="form-group">
-                            <label>وصف الطلب / التفاصيل</label>
-                            <textarea id="order-desc" placeholder="اشرح لنا ما الذي تحتاجه بالضبط (الألوان، الأسلوب، المواعيد...)" required></textarea>
-                        </div>
-                        <button type="submit" class="btn-gold" style="width:100%; padding:15px;">إرسال الطلب</button>
+                        <div class="form-group"><label>وصف المشروع</label><textarea id="order-desc" rows="4" required></textarea></div>
+                        <button type="submit" class="btn-gold" style="width:100%">تأكيد الطلب</button>
                     </form>
                 </div>
             </div>
         </main>
-
-        <!-- Dynamic Pages Anchor -->
-        <div id="extra-pages"></div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-flex">
-                <div class="social-icons">
-                    <a href="#" id="link-fb"><i class="fab fa-facebook"></i></a>
-                    <a href="#" id="link-ig"><i class="fab fa-instagram"></i></a>
-                    <a href="#" id="link-phone" style="font-size:1.1rem; vertical-align:middle; margin-right:20px;">
-                        <span id="txt-phone">0270 9325300</span> <i class="fas fa-phone"></i>
-                    </a>
+            <div class="footer-content">
+                <div class="logo">
+                    <span class="logo-text" style="color:white" id="footer-logo-text">RAF DESIGN</span>
                 </div>
-                <div>&copy; 2024 RAF DESIGN - جميع الحقوق محفوظة</div>
+                <div class="social-links" id="footer-socials">
+                    <a href="#" id="link-fb"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" id="link-ig"><i class="fab fa-instagram"></i></a>
+                    <a href="#" id="link-wa"><i class="fab fa-whatsapp"></i></a>
+                </div>
             </div>
+            <p style="text-align:center; opacity:0.7;">&copy; 2024 RAF DESIGN. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
 
     <script>
         const DEFAULT_PASS = "RAFIK20069";
+        let tempLogoBase64 = null;
+
         let config = {
             logoText: localStorage.getItem('raf_logo_text') || "RAF DESIGN",
-            logoUrl: localStorage.getItem('raf_logo_url') || "",
-            fb: localStorage.getItem('raf_fb') || "https://facebook.com",
-            ig: localStorage.getItem('raf_ig') || "https://instagram.com",
-            phone: localStorage.getItem('raf_phone') || "0270 9325300",
-            tabs: JSON.parse(localStorage.getItem('raf_tabs')) || []
+            logoImg: localStorage.getItem('raf_logo_img') || null,
+            fb: localStorage.getItem('raf_fb') || "#",
+            ig: localStorage.getItem('raf_ig') || "#",
+            wa: localStorage.getItem('raf_wa') || "",
         };
 
-        // --- Auth & Admin Logic ---
+        function showPage(id) {
+            const page = document.getElementById(id + '-page');
+            const navBtn = document.getElementById('nav-' + id);
+            
+            if (!page) return;
+
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
+            
+            page.classList.add('active');
+            if (navBtn) navBtn.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openOrder(service) {
+            document.getElementById('order-title').innerText = "طلب: " + service;
+            showPage('order');
+        }
+
         function openAuthModal() { document.getElementById('auth-modal').style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         
         function checkAccess() {
-            const pass = document.getElementById('auth-input').value;
-            const savedPass = localStorage.getItem('raf_admin_code') || DEFAULT_PASS;
-            if(pass === savedPass) {
+            if(document.getElementById('auth-input').value === (localStorage.getItem('raf_admin_code') || DEFAULT_PASS)) {
                 closeModal('auth-modal');
-                openAdminPanel();
-            } else {
-                alert("الكود السري خاطئ!");
+                document.getElementById('admin-panel').style.display = 'flex';
+                loadAdminData();
+            } else { alert("رمز الدخول خاطئ!"); }
+        }
+
+        function loadAdminData() {
+            document.getElementById('admin-logo-text').value = config.logoText;
+            document.getElementById('admin-fb-link').value = config.fb;
+            document.getElementById('admin-ig-link').value = config.ig;
+            document.getElementById('admin-wa-link').value = config.wa;
+        }
+
+        function previewLogo(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => { tempLogoBase64 = e.target.result; };
+                reader.readAsDataURL(input.files[0]);
             }
         }
 
-        function openAdminPanel() {
-            document.getElementById('admin-panel').style.display = 'flex';
-            document.getElementById('admin-logo-text').value = config.logoText;
-            document.getElementById('admin-logo-url').value = config.logoUrl;
-            document.getElementById('admin-fb').value = config.fb;
-            document.getElementById('admin-ig').value = config.ig;
-            document.getElementById('admin-phone').value = config.phone;
-            renderAdminTabs();
+        function saveChanges() {
+            if(tempLogoBase64) localStorage.setItem('raf_logo_img', tempLogoBase64);
+            localStorage.setItem('raf_logo_text', document.getElementById('admin-logo-text').value);
+            localStorage.setItem('raf_fb', document.getElementById('admin-fb-link').value);
+            localStorage.setItem('raf_ig', document.getElementById('admin-ig-link').value);
+            localStorage.setItem('raf_wa', document.getElementById('admin-wa-link').value);
+            alert("تم حفظ الإعدادات بنجاح!");
+            location.reload();
         }
 
         function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
 
-        // --- Tabs Management ---
-        function renderAdminTabs() {
-            const container = document.getElementById('admin-tabs-container');
-            container.innerHTML = "";
-            config.tabs.forEach((tab, index) => {
-                container.innerHTML += `
-                    <div style="display:flex; gap:5px; margin-bottom:8px;">
-                        <input type="text" value="${tab}" onchange="updateTabName(${index}, this.value)" style="flex:1; padding:5px;">
-                        <button onclick="removeTab(${index})" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">X</button>
-                    </div>
-                `;
-            });
-        }
-
-        function addNewTab() {
-            const name = prompt("اسم التبويب الجديد:");
-            if(name) {
-                config.tabs.push(name);
-                renderAdminTabs();
-            }
-        }
-        function updateTabName(i, val) { config.tabs[i] = val; }
-        function removeTab(i) { config.tabs.splice(i, 1); renderAdminTabs(); }
-
-        // --- Save Global Changes ---
-        function saveChanges() {
-            config.logoText = document.getElementById('admin-logo-text').value;
-            config.logoUrl = document.getElementById('admin-logo-url').value;
-            config.fb = document.getElementById('admin-fb').value;
-            config.ig = document.getElementById('admin-ig').value;
-            config.phone = document.getElementById('admin-phone').value;
-            
-            const newPass = document.getElementById('admin-new-pass').value;
-            if(newPass) localStorage.setItem('raf_admin_code', newPass);
-
-            localStorage.setItem('raf_logo_text', config.logoText);
-            localStorage.setItem('raf_logo_url', config.logoUrl);
-            localStorage.setItem('raf_fb', config.fb);
-            localStorage.setItem('raf_ig', config.ig);
-            localStorage.setItem('raf_phone', config.phone);
-            localStorage.setItem('raf_tabs', JSON.stringify(config.tabs));
-
-            alert("تم حفظ التعديلات! سيتم تحديث الصفحة.");
-            location.reload();
-        }
-
-        // --- UI & Routing ---
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-            
-            const p = document.getElementById(pageId + '-page');
-            if(p) p.classList.add('active');
-            
-            const n = document.getElementById('nav-' + pageId);
-            if(n) n.classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
-        function openOrder(service) {
-            document.getElementById('order-title').innerText = "طلب خدمة: " + service;
-            showPage('order');
-        }
-
-        function confirmOrder(e) {
+        async function confirmOrder(e) {
             e.preventDefault();
-            alert("تم إرسال طلبك بنجاح! شكراً لثقتك بـ RAF DESIGN.");
+            alert("شكراً لك! تم استلام طلبك، سنتصل بك عبر الهاتف قريباً.");
             showPage('home');
-            e.target.reset();
         }
 
-        // --- Initialization ---
         window.onload = () => {
-            // Apply Logo
-            if(config.logoUrl) {
-                document.getElementById('logo-render-area').innerHTML = `<img src="${config.logoUrl}" id="display-logo-img" onerror="this.src='https://via.placeholder.com/50?text=Logo'">`;
+            if(config.logoImg) {
+                const imgEl = document.getElementById('site-logo-img');
+                if (imgEl) { imgEl.src = config.logoImg; imgEl.style.display = 'block'; }
+                const wrapper = document.getElementById('logo-text-wrapper');
+                if (wrapper) wrapper.style.display = 'none';
             } else {
-                document.getElementById('logo-txt').innerText = config.logoText;
+                const txtEl = document.getElementById('logo-txt');
+                if (txtEl) txtEl.innerText = config.logoText;
             }
 
-            // Apply Links
+            document.getElementById('footer-logo-text').innerText = config.logoText;
             document.getElementById('link-fb').href = config.fb;
             document.getElementById('link-ig').href = config.ig;
-            document.getElementById('txt-phone').innerText = config.phone;
-
-            // Apply Dynamic Tabs & Pages
-            const nav = document.getElementById('navbar-links');
-            const pages = document.getElementById('extra-pages');
-            config.tabs.forEach(tab => {
-                const id = "dynamic-" + tab.replace(/\s/g, '');
-                nav.innerHTML += `<li><a onclick="showPage('${id}')" id="nav-${id}">${tab}</a></li>`;
-                pages.innerHTML += `
-                    <main id="${id}-page" class="page">
-                        <div class="container" style="padding:100px 0; text-align:center;">
-                            <h2 style="color:var(--gold); font-size:2.5rem;">${tab}</h2>
-                            <p style="margin-top:20px;">أهلاً بك في قسم ${tab}. المحتوى هنا يتم تحديثه دورياً.</p>
-                            <button class="btn-gold" style="margin-top:30px;" onclick="showPage('home')">العودة للرئيسية</button>
-                        </div>
-                    </main>
-                `;
-            });
-        }
+            document.getElementById('link-wa').href = config.wa ? `https://wa.me/${config.wa}` : "#";
+        };
     </script>
 </body>
 </html>
