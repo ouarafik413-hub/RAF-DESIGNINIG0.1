@@ -3,565 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAF DESIGN | الإبداع الرقمي</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <title>مهبول - طعم يجنن!</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap');
-        
-        :root {
-            --primary: #4b164c;
-            --secondary: #c9a050;
-            --accent: #2d0d2e;
-        }
-
         body {
-            font-family: 'Cairo', 'Poppins', sans-serif;
-            background-color: #fdfdfd;
-            overflow-x: hidden;
-            transition: background-color 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
         }
-
-        .page { 
-            display: none; 
-            min-height: 80vh; 
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        :root {
+            --mahbool-red: #e31e24;
+            --mahbool-yellow: #fecb00;
+        }
+        .bg-mahbool-red { background-color: var(--mahbool-red); }
+        .text-mahbool-yellow { color: var(--mahbool-yellow); }
+        .bg-mahbool-yellow { background-color: var(--mahbool-yellow); }
+        .text-mahbool-red { color: var(--mahbool-red); }
+        .border-mahbool-red { border-color: var(--mahbool-red); }
+        .border-mahbool-yellow { border-color: var(--mahbool-yellow); }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--mahbool-red) 0%, #9b1418 100%);
         }
         
-        .page.active { 
-            display: block; 
-            opacity: 1;
-            transform: translateY(0);
+        .chip-float {
+            animation: floating 3s ease-in-out infinite;
         }
-
-        .loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-
-        #admin-panel {
-            transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
-            transform: translateX(100%);
-        }
-        #admin-panel.open { transform: translateX(0); }
         
-        html[dir="ltr"] #admin-panel { transform: translateX(-100%); left: 0; right: auto; }
-        html[dir="ltr"] #admin-panel.open { transform: translateX(0); }
+        @keyframes floating {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
 
-        .service-card, .stat-card, .clickable-card {
+        .product-card {
             transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .editor-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        /* Highlight editable areas when editor is open */
+        .editing-mode .editable-image {
+            outline: 2px dashed #3b82f6;
             cursor: pointer;
         }
-        .service-card:hover, .stat-card:hover, .clickable-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .nav-link { position: relative; }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0; height: 2px; bottom: -4px; left: 0;
-            background-color: var(--secondary);
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after { width: 100%; }
-
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #c9a050;
-            border-radius: 10px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.75);
-            z-index: 500;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            backdrop-filter: blur(8px);
-        }
-        .modal.active { display: flex; }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 text-gray-800">
 
-    <!-- Loading Screen -->
-    <div id="loading" class="loading-overlay">
-        <div class="relative">
-            <div class="w-20 h-20 border-4 border-purple-100 border-t-purple-900 rounded-full animate-spin"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <i class="fas fa-bolt text-amber-500 animate-pulse"></i>
+    <!-- Header / Nav -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-reverse space-x-2">
+                <div class="w-12 h-12 bg-mahbool-red rounded-full flex items-center justify-center overflow-hidden border-2 border-mahbool-yellow">
+                    <img id="logo-preview" src="" alt="Logo" class="w-full h-full object-cover hidden">
+                    <span id="logo-text-icon" class="text-white font-black text-xs">مهبول</span>
+                </div>
+                <span id="nav-brand-name" class="text-2xl font-black text-mahbool-red tracking-tighter uppercase">MAHBOOL</span>
+            </div>
+            <div class="hidden md:flex space-x-reverse space-x-8 font-bold">
+                <a href="#home" class="hover:text-mahbool-red transition">الرئيسية</a>
+                <a href="#flavors" class="hover:text-mahbool-red transition">النكهات</a>
+                <a href="#about" class="hover:text-mahbool-red transition">لماذا نحن؟</a>
+                <a href="#contact" class="bg-mahbool-red text-white px-6 py-2 rounded-full hover:bg-red-700 transition">اتصل بنا</a>
             </div>
         </div>
-        <p class="mt-4 font-bold text-purple-900 animate__animated animate__pulse animate__infinite" data-i18n="loading">جاري التحميل...</p>
-    </div>
+    </nav>
 
-    <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer group" onclick="showPage('home')">
-                <span class="text-2xl font-bold text-purple-900" id="site-name">RAF DESIGN</span>
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient min-h-screen pt-24 flex items-center relative overflow-hidden">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 text-white text-center md:text-right z-10">
+                <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                    <span id="hero-title-1">طعم</span> <span id="hero-title-highlight" class="text-mahbool-yellow">الجنون</span> <br><span id="hero-title-2">في كل قرمشة!</span>
+                </h1>
+                <p id="hero-description" class="text-xl mb-8 opacity-90">
+                    نقدم لكم أجود أنواع البطاطس الطبيعية 100% المحضرة بعناية فائقة لتمنحكم تجربة طعم لا تُنسى.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-reverse sm:space-x-4 justify-center md:justify-start">
+                    <a href="#flavors" class="bg-mahbool-yellow text-mahbool-red font-black px-10 py-4 rounded-xl text-lg hover:scale-105 transition shadow-lg text-center">
+                        اكتشف النكهات
+                    </a>
+                </div>
             </div>
+            <div class="md:w-1/2 mt-12 md:mt-0 flex justify-center relative">
+                <div class="relative w-64 md:w-96 chip-float">
+                    <div class="bg-mahbool-yellow/20 absolute -inset-4 blur-3xl rounded-full"></div>
+                    <img id="main-product-img" src="https://via.placeholder.com/400x600/e31e24/ffffff?text=Mahbool+Chips" 
+                         alt="[كيس شيبس مهبول الرئيسي]" 
+                         class="relative z-10 rounded-2xl shadow-2xl rotate-3 border-4 border-white max-h-[500px] object-contain editable-image">
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-16 fill-gray-50">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C57.25,103.6,120.24,115.65,178,110,230.93,104.81,273.18,74.52,321.39,56.44Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Flavors Section -->
+    <section id="flavors" class="py-24">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-black mb-4 text-mahbool-red">نكهات مهبول الأصلية</h2>
+            <p class="text-gray-600 mb-16 max-w-2xl mx-auto">اختيارك من القرمشة يبدأ هنا!</p>
             
-            <nav class="hidden lg:block">
-                <ul class="flex gap-8 font-semibold text-gray-700">
-                    <li><a href="#" onclick="showPage('home')" class="nav-link text-purple-900" data-i18n="nav_home">الرئيسية</a></li>
-                    <li><a href="#" onclick="showPage('services')" class="nav-link" data-i18n="nav_services">خدماتنا</a></li>
-                    <li><a href="#" onclick="showPage('about')" class="nav-link" data-i18n="nav_about">من نحن</a></li>
-                </ul>
-            </nav>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Flavor 1 -->
+                <div class="product-card bg-white p-8 rounded-3xl shadow-xl border-t-8 border-mahbool-yellow">
+                    <img id="flavor-1-img" src="https://via.placeholder.com/200x250/fecb00/000000?text=Classic" alt="[شيبس كلاسيك]" class="mx-auto mb-6 h-48 object-contain editable-image">
+                    <h3 class="text-2xl font-bold mb-2">كلاسيك (بالملح)</h3>
+                    <p class="text-gray-500 mb-6">الطعم الأصلي للبطاطس المقرمشة.</p>
+                    <input type="file" accept="image/*" class="hidden" id="upload-flavor-1" onchange="handleImageUpload(this, 'flavor-1-img')">
+                    <button onclick="document.getElementById('upload-flavor-1').click()" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition editor-controls hidden">تغيير الصورة</button>
+                </div>
 
-            <div class="flex items-center gap-4">
-                <select onchange="changeLanguage(this.value)" class="bg-gray-100 border-none rounded-lg px-3 py-1 text-sm font-bold text-purple-900 outline-none cursor-pointer">
-                    <option value="ar">العربية</option>
-                    <option value="en">English</option>
-                </select>
-                <button onclick="showPage('order')" class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2 rounded-full font-bold transition-all text-sm" data-i18n="btn_order">اطلب مشروعك</button>
+                <!-- Flavor 2 -->
+                <div class="product-card bg-white p-8 rounded-3xl shadow-xl border-t-8 border-mahbool-red">
+                    <img id="flavor-2-img" src="https://via.placeholder.com/200x250/e31e24/ffffff?text=Chili" alt="[شيبس حار]" class="mx-auto mb-6 h-48 object-contain editable-image">
+                    <h3 class="text-2xl font-bold mb-2">الفلفل الحار</h3>
+                    <p class="text-gray-500 mb-6">لعشاق التحدي والحرارة.</p>
+                    <input type="file" accept="image/*" class="hidden" id="upload-flavor-2" onchange="handleImageUpload(this, 'flavor-2-img')">
+                    <button onclick="document.getElementById('upload-flavor-2').click()" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition editor-controls hidden">تغيير الصورة</button>
+                </div>
+
+                <!-- Flavor 3 -->
+                <div class="product-card bg-white p-8 rounded-3xl shadow-xl border-t-8 border-orange-500">
+                    <img id="flavor-3-img" src="https://via.placeholder.com/200x250/f97316/ffffff?text=Cheese" alt="[شيبس جبنة]" class="mx-auto mb-6 h-48 object-contain editable-image">
+                    <h3 class="text-2xl font-bold mb-2">جبنة فرنسية</h3>
+                    <p class="text-gray-500 mb-6">مزيج الأجبان الغني واللذيذ.</p>
+                    <input type="file" accept="image/*" class="hidden" id="upload-flavor-3" onchange="handleImageUpload(this, 'flavor-3-img')">
+                    <button onclick="document.getElementById('upload-flavor-3').click()" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition editor-controls hidden">تغيير الصورة</button>
+                </div>
             </div>
         </div>
-    </header>
+    </section>
 
-    <main class="container mx-auto px-4 py-12">
-        <!-- Home Page -->
-        <section id="home-page" class="page active">
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-mahbool-yellow/10">
+        <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="flex-1 space-y-6 animate__animated animate__fadeInRight">
-                    <h1 class="text-5xl md:text-7xl font-extrabold text-purple-950 leading-tight">
-                        <span data-i18n="hero_title_1">نحول رؤيتك إلى</span> <br>
-                        <span class="text-amber-500 relative">
-                            <span data-i18n="hero_title_accent">واقع بصري</span>
-                            <svg class="absolute -bottom-2 left-0 w-full" height="8" viewBox="0 0 100 8" preserveAspectRatio="none">
-                                <path d="M0 7C30 7 70 1 100 1" stroke="#f59e0b" stroke-width="2" fill="none"/>
-                            </svg>
-                        </span> 
-                        <span data-i18n="hero_title_2">مذهل</span>
-                    </h1>
-                    <p class="text-xl text-gray-600 leading-relaxed max-w-xl" data-i18n="hero_desc">نجمع بين فن التصوير، وجمال التصميم، وقوة البرمجة لنخلق لعلامتك التجارية حضوراً لا يُنسى.</p>
-                    <div class="flex gap-4 pt-4">
-                        <button onclick="showPage('services')" class="bg-purple-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-purple-950 transition-all shadow-lg" data-i18n="btn_start">ابدأ الآن</button>
-                        <button onclick="showPage('about')" class="border-2 border-purple-900 text-purple-900 px-8 py-4 rounded-xl font-bold hover:bg-purple-50 transition-all" data-i18n="btn_know_us">تعرف علينا</button>
+                <div class="md:w-1/2 grid grid-cols-2 gap-4">
+                    <div class="bg-white p-6 rounded-2xl shadow-md text-center">
+                        <div class="text-4xl mb-2">🌱</div>
+                        <h4 class="font-bold">طبيعي 100%</h4>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-md text-center mt-8">
+                        <div class="text-4xl mb-2">⚡</div>
+                        <h4 class="font-bold">قرمشة فائقة</h4>
                     </div>
                 </div>
-                <div class="flex-1 animate__animated animate__zoomIn">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000" class="rounded-3xl shadow-2xl transition-transform hover:scale-[1.02]" alt="Creative Design">
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl font-black mb-6 text-mahbool-red">سر الجنون في مهبول!</h2>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                        نحن نستخدم أفضل حبات البطاطس المنتقاة بعناية لضمان وصول أفضل جودة لكل عميل. هدفنا هو جعل كل لحظة ممتعة ومقرمشة.
+                    </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Services Page -->
-        <section id="services-page" class="page">
-            <h2 class="text-4xl font-bold text-center text-purple-900 mb-12 animate__animated animate__fadeInDown" data-i18n="services_title">خدماتنا الاحترافية</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- 1. Cinematography -->
-                <div class="service-card bg-white p-8 rounded-3xl shadow-lg border-t-4 border-amber-500 text-center animate__animated animate__fadeInUp">
-                    <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-amber-600">
-                        <i class="fas fa-camera-retro text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4" data-i18n="service_1_title">التصوير السينمائي</h3>
-                    <p class="text-gray-600 text-sm mb-6" data-i18n="service_1_desc">تصوير منتجات، عقارات، وإعلانات تجارية بأحدث تقنيات 4K والإضاءة الاحترافية.</p>
-                    <button onclick="openOrder('التصوير السينمائي', 'Cinematography')" class="text-amber-600 font-bold hover:underline" data-i18n="btn_request">اطلب الخدمة</button>
+    <!-- Contact Section -->
+    <section id="contact" class="py-24">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+                <div class="md:w-1/3 bg-mahbool-red p-12 text-white flex flex-col justify-center text-center">
+                    <h3 class="text-2xl font-bold mb-4">اطلب الآن</h3>
+                    <p class="text-sm opacity-80">نحن بانتظار استفساراتكم لطلبات الجملة والتوزيع.</p>
                 </div>
-
-                <!-- 2. Visual Identity -->
-                <div class="service-card bg-white p-8 rounded-3xl shadow-lg border-t-4 border-purple-900 text-center animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
-                    <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-purple-600">
-                        <i class="fas fa-pen-nib text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4" data-i18n="service_2_title">الهوية البصرية</h3>
-                    <p class="text-gray-600 text-sm mb-6" data-i18n="service_2_desc">تصميم شعارات وبراندنج متكامل يعكس قيم علامتك التجارية ويترك بصمة قوية.</p>
-                    <button onclick="openOrder('الهوية البصرية', 'Visual Identity')" class="text-purple-600 font-bold hover:underline" data-i18n="btn_request">اطلب الخدمة</button>
-                </div>
-
-                <!-- 3. SUPER DESIGNING -->
-                <div class="service-card bg-white p-8 rounded-3xl shadow-lg border-t-4 border-pink-500 text-center animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
-                    <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-pink-600">
-                        <i class="fas fa-magic text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">SUPER DESIGNING</h3>
-                    <p class="text-gray-600 text-sm mb-6" data-i18n="service_3_desc">حلول تصميم جرافيك متقدمة للسوشيال ميديا، المطبوعات، والمنشورات الدعائية المبتكرة.</p>
-                    <button onclick="openOrder('SUPER DESIGNING', 'SUPER DESIGNING')" class="text-pink-600 font-bold hover:underline" data-i18n="btn_request">اطلب الخدمة</button>
-                </div>
-
-                <!-- 4. Web Development -->
-                <div class="service-card bg-white p-8 rounded-3xl shadow-lg border-t-4 border-blue-500 text-center animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
-                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-blue-600">
-                        <i class="fas fa-code text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4" data-i18n="service_4_title">تطوير الويب</h3>
-                    <p class="text-gray-600 text-sm mb-6" data-i18n="service_4_desc">بناء مواقع سريعة، متجاوبة، ومحمية باستخدام أحدث تقنيات البرمجة العالمية.</p>
-                    <button onclick="openOrder('تطوير الويب', 'Web Development')" class="text-blue-600 font-bold hover:underline" data-i18n="btn_request">اطلب الخدمة</button>
+                <div class="md:w-2/3 p-12">
+                    <form onsubmit="event.preventDefault(); alert('تم الإرسال بنجاح');" class="space-y-4">
+                        <input type="text" placeholder="الاسم" class="w-full p-3 rounded-lg border focus:ring-2 focus:ring-mahbool-red outline-none">
+                        <textarea placeholder="رسالتك" class="w-full p-3 rounded-lg border focus:ring-2 focus:ring-mahbool-red outline-none" rows="3"></textarea>
+                        <button class="bg-mahbool-red text-white w-full py-3 rounded-lg font-bold hover:bg-red-700 transition">إرسال</button>
+                    </form>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- About Page -->
-        <section id="about-page" class="page">
-            <div class="max-w-6xl mx-auto space-y-16">
-                <div class="flex flex-col md:flex-row items-center gap-12 animate__animated animate__fadeIn">
-                    <div class="flex-1 space-y-6">
-                        <h2 class="text-4xl font-bold text-purple-900" data-i18n="about_title">قصتنا وإبداعنا</h2>
-                        <p class="text-gray-600 text-lg leading-relaxed" data-i18n="about_desc">انطلق استوديو RAF DESIGN من شغف عميق بالجمال البصري والحلول التقنية المبتكرة. نحن لسنا مجرد مزودي خدمات، بل شركاء في رحلة نجاحك نؤمن بأن كل تفصيل صغير يصنع فرقاً كبيراً في علامتك التجارية.</p>
-                        
-                        <!-- Statistics Grid (Recovered and Expanded) -->
-                        <div class="grid grid-cols-2 gap-6 pt-4">
-                            <div class="stat-card bg-white p-6 rounded-2xl shadow-md border-r-4 border-amber-500 group">
-                                <i class="fas fa-check-circle text-amber-500 mb-2 text-xl"></i>
-                                <h4 class="text-3xl font-bold text-purple-900 group-hover:scale-110 transition-transform">+150</h4>
-                                <p class="text-gray-500 text-sm font-semibold" data-i18n="stat_projects">مشروع مكتمل</p>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 text-center">
+        <p class="text-mahbool-yellow font-black text-2xl mb-4">MAHBOOL</p>
+        <p class="text-gray-500 text-sm">© 2024 جميع الحقوق محفوظة لشركة مهبول.</p>
+    </footer>
+
+    <!-- Creative Editor Panel -->
+    <div class="editor-panel">
+        <button id="main-editor-btn" onclick="toggleEditor()" class="bg-black text-white p-4 rounded-full shadow-2xl hover:scale-110 transition flex items-center gap-2">
+            <span id="editor-icon">🛠️</span>
+            <span id="editor-btn-text" class="font-bold">وضع التعديل</span>
+        </button>
+
+        <div id="editor-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 shadow-2xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-black text-mahbool-red">لوحة تحكم الموقع</h2>
+                    <button onclick="toggleEditor()" class="text-gray-400 hover:text-black text-2xl">✕</button>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Text Edits -->
+                    <div class="space-y-4 border-b pb-6">
+                        <h3 class="font-bold text-blue-600">1. تعديل النصوص</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-bold block mb-1">اسم البراند:</label>
+                                <input type="text" placeholder="اسم البراند" class="w-full border p-3 rounded-lg" oninput="updateText('nav-brand-name', this.value)">
                             </div>
-                            <div class="stat-card bg-white p-6 rounded-2xl shadow-md border-r-4 border-purple-900 group">
-                                <i class="fas fa-smile text-purple-900 mb-2 text-xl"></i>
-                                <h4 class="text-3xl font-bold text-purple-900 group-hover:scale-110 transition-transform">+50</h4>
-                                <p class="text-gray-500 text-sm font-semibold" data-i18n="stat_clients">عميل سعيد</p>
+                            <div>
+                                <label class="text-xs font-bold block mb-1">كلمة التميز:</label>
+                                <input type="text" placeholder="الجنون" class="w-full border p-3 rounded-lg" oninput="updateText('hero-title-highlight', this.value)">
                             </div>
-                            <div class="stat-card bg-white p-6 rounded-2xl shadow-md border-r-4 border-pink-500 group">
-                                <i class="fas fa-calendar-alt text-pink-500 mb-2 text-xl"></i>
-                                <h4 class="text-3xl font-bold text-purple-900 group-hover:scale-110 transition-transform">+5</h4>
-                                <p class="text-gray-500 text-sm font-semibold" data-i18n="stat_years">سنوات خبرة</p>
+                        </div>
+                        <label class="text-xs font-bold block mb-1">وصف الواجهة:</label>
+                        <textarea placeholder="وصف الواجهة" class="w-full border p-3 rounded-lg" rows="2" oninput="updateText('hero-description', this.value)"></textarea>
+                    </div>
+
+                    <!-- Image Uploads -->
+                    <div class="space-y-4 border-b pb-6">
+                        <h3 class="font-bold text-blue-600">2. رفع الصور الجديدة</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 border border-gray-100 rounded-xl">
+                                <span class="text-xs font-bold block mb-2">الصورة الرئيسية (Hero):</span>
+                                <input type="file" accept="image/*" class="w-full text-xs" onchange="handleImageUpload(this, 'main-product-img')">
                             </div>
-                            <div class="stat-card bg-white p-6 rounded-2xl shadow-md border-r-4 border-blue-500 group">
-                                <i class="fas fa-award text-blue-500 mb-2 text-xl"></i>
-                                <h4 class="text-3xl font-bold text-purple-900 group-hover:scale-110 transition-transform">+10</h4>
-                                <p class="text-gray-500 text-sm font-semibold" data-i18n="stat_awards">جوائز تميز</p>
+                            <div class="p-4 border border-gray-100 rounded-xl">
+                                <span class="text-xs font-bold block mb-2">شعار الموقع (Logo):</span>
+                                <input type="file" accept="image/*" class="w-full text-xs" onchange="handleLogoUpload(this)">
                             </div>
                         </div>
                     </div>
-                    <div class="flex-1 relative">
-                        <div class="absolute -top-10 -left-10 w-32 h-32 bg-amber-200/30 rounded-full blur-3xl"></div>
-                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000" class="rounded-[2.5rem] shadow-2xl rotate-2 transition-transform hover:rotate-0 relative z-10 border-8 border-white" alt="Team Working">
+
+                    <!-- Color Styles -->
+                    <div class="space-y-4 border-b pb-6">
+                        <h3 class="font-bold text-blue-600">3. التحكم بالألوان</h3>
+                        <div class="flex flex-wrap gap-6">
+                            <label class="flex items-center gap-2">
+                                <span class="text-xs font-bold">اللون الأساسي:</span>
+                                <input type="color" value="#e31e24" class="w-10 h-10 rounded cursor-pointer" onchange="updateColor('--mahbool-red', this.value)">
+                            </label>
+                            <label class="flex items-center gap-2">
+                                <span class="text-xs font-bold">لون التميز:</span>
+                                <input type="color" value="#fecb00" class="w-10 h-10 rounded cursor-pointer" onchange="updateColor('--mahbool-yellow', this.value)">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Final Actions -->
+                    <div class="pt-4 space-y-3">
+                        <button onclick="downloadPage()" class="w-full bg-green-600 text-white font-black py-4 rounded-xl hover:bg-green-700 transition flex items-center justify-center gap-2 shadow-lg">
+                            <span>📥</span> تنزيل الموقع بكافة التعديلات والصور
+                        </button>
+                        <p class="text-[10px] text-gray-400 text-center italic">ملاحظة: الصور المرفوعة سيتم دمجها داخل ملف الـ HTML المحمل تلقائياً.</p>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Order Page -->
-        <section id="order-page" class="page">
-            <div class="max-w-2xl mx-auto bg-white p-10 rounded-3xl shadow-2xl border-b-8 border-purple-900">
-                <h2 id="order-heading" class="text-3xl font-bold text-purple-900 mb-8 text-center" data-i18n="order_new_title">طلب خدمة جديدة</h2>
-                <form id="order-form" class="space-y-6">
-                    <div class="space-y-2">
-                         <label class="block text-sm font-bold text-gray-700 mx-2" data-i18n="label_name">الاسم الكامل</label>
-                         <input type="text" id="order-name" data-i18n-placeholder="placeholder_name" required class="w-full p-4 rounded-xl border outline-none focus:ring-2 focus:ring-purple-900/20">
-                    </div>
-                    
-                    <div class="space-y-2">
-                        <label class="block text-sm font-bold text-gray-700 mx-2" data-i18n="label_phone">رقم الهاتف</label>
-                        <input type="tel" id="order-phone" placeholder="06XXXXXXXX" required class="w-full p-4 rounded-xl border outline-none focus:ring-2 focus:ring-purple-900/20">
-                    </div>
-
-                    <div id="specialization-container" class="space-y-2 hidden">
-                        <label class="block text-sm font-bold text-gray-700 mx-2" data-i18n="label_design_type">نوع التصميم المطلوب</label>
-                        <select id="order-spec" class="w-full p-4 rounded-xl border outline-none bg-white focus:ring-2 focus:ring-pink-500/20">
-                            <!-- Options updated by JS for translation -->
-                        </select>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="block text-sm font-bold text-gray-700 mx-2" data-i18n="label_details">تفاصيل إضافية</label>
-                        <textarea id="order-desc" rows="4" data-i18n-placeholder="placeholder_details" required class="w-full p-4 rounded-xl border outline-none focus:ring-2 focus:ring-purple-900/20"></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full bg-purple-900 text-white py-4 rounded-2xl font-bold text-xl hover:bg-purple-950 transition-all flex items-center justify-center gap-3 shadow-lg">
-                        <i class="fab fa-whatsapp text-2xl"></i> <span data-i18n="btn_send_wa">إرسال عبر واتساب</span>
-                    </button>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <!-- Admin Panel -->
-    <button onclick="triggerAdmin()" class="fixed bottom-6 left-6 w-14 h-14 bg-purple-900 text-white rounded-full shadow-2xl z-[600] flex items-center justify-center hover:scale-110 transition-all">
-        <i class="fas fa-cog text-xl"></i>
-    </button>
-
-    <div id="admin-panel" class="fixed top-0 right-0 h-full w-full md:w-96 bg-white z-[700] shadow-2xl p-8 overflow-y-auto border-l-4 border-amber-500">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-bold text-purple-900">Admin Panel</h2>
-            <button onclick="triggerAdmin()" class="text-gray-400 hover:text-red-500"><i class="fas fa-times fa-lg"></i></button>
-        </div>
-        <div class="space-y-6">
-             <section class="bg-gray-50 p-5 rounded-2xl">
-                <h3 class="font-bold mb-4">Settings</h3>
-                <input type="text" id="cfg-phone" placeholder="WhatsApp Number" class="w-full p-3 border rounded-xl outline-none mb-3">
-                <input type="text" id="cfg-fb" placeholder="Facebook URL" class="w-full p-3 border rounded-xl outline-none">
-            </section>
-            <section class="bg-gray-50 p-5 rounded-2xl">
-                <h3 class="font-bold mb-4">Recent Orders</h3>
-                <div id="admin-orders" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar"></div>
-            </section>
-            <button onclick="saveConfig()" class="w-full bg-amber-500 text-white py-4 rounded-xl font-bold shadow-lg hover:bg-amber-600 transition-all">Save Changes</button>
         </div>
     </div>
 
-    <footer class="bg-purple-950 text-white py-12 mt-20">
-        <div class="container mx-auto px-4 text-center">
-            <div class="flex justify-center gap-8 mb-10">
-                <a href="#" id="foot-fb" target="_blank" class="text-3xl hover:text-amber-500 transition-all"><i class="fab fa-facebook"></i></a>
-                <a href="#" id="foot-wa" target="_blank" class="text-3xl hover:text-amber-500 transition-all"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <p class="opacity-60 text-sm" id="footer-copy">&copy; 2024 RAF DESIGN</p>
-        </div>
-    </footer>
+    <script>
+        // Toggle the editor view
+        function toggleEditor() {
+            const modal = document.getElementById('editor-modal');
+            const isHidden = modal.classList.toggle('hidden');
+            document.body.classList.toggle('editing-mode', !isHidden);
+            
+            // Toggle mini-edit buttons inside sections
+            const controls = document.querySelectorAll('.editor-controls');
+            controls.forEach(c => c.classList.toggle('hidden', isHidden));
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+            const btnText = document.getElementById('editor-btn-text');
+            btnText.innerText = isHidden ? "وضع التعديل" : "إغلاق اللوحة";
+        }
 
-        // Translation Data
-        const translations = {
-            ar: {
-                loading: "جاري التحميل...",
-                nav_home: "الرئيسية",
-                nav_services: "خدماتنا",
-                nav_about: "من نحن",
-                btn_order: "اطلب مشروعك",
-                hero_title_1: "نحول رؤيتك إلى",
-                hero_title_accent: "واقع بصري",
-                hero_title_2: "مذهل",
-                hero_desc: "نجمع بين فن التصوير، وجمال التصميم، وقوة البرمجة لنخلق لعلامتك التجارية حضوراً لا يُنسى.",
-                btn_start: "ابدأ الآن",
-                btn_know_us: "تعرف علينا",
-                services_title: "خدماتنا الاحترافية",
-                service_1_title: "التصوير السينمائي",
-                service_1_desc: "تصوير منتجات، عقارات، وإعلانات تجارية بأحدث تقنيات 4K والإضاءة الاحترافية.",
-                service_2_title: "الهوية البصرية",
-                service_2_desc: "تصميم شعارات وبراندنج متكامل يعكس قيم علامتك التجارية ويترك بصمة قوية.",
-                service_4_title: "تطوير الويب",
-                service_4_desc: "بناء مواقع سريعة، متجاوبة، ومحمية باستخدام أحدث تقنيات البرمجة العالمية.",
-                btn_request: "اطلب الخدمة",
-                about_title: "قصتنا وإبداعنا",
-                about_desc: "انطلق استوديو RAF DESIGN من شغف عميق بالجمال البصري والحلول التقنية المبتكرة. نحن لسنا مجرد مزودي خدمات، بل شركاء في رحلة نجاحك.",
-                stat_projects: "مشروع مكتمل",
-                stat_clients: "عميل سعيد",
-                stat_years: "سنوات خبرة",
-                stat_awards: "جوائز تميز",
-                order_new_title: "طلب خدمة جديدة",
-                label_name: "الاسم الكامل",
-                placeholder_name: "أدخل اسمك هنا...",
-                label_phone: "رقم الهاتف",
-                label_details: "تفاصيل إضافية",
-                placeholder_details: "اشرح لنا فكرتك بالتفصيل...",
-                label_design_type: "نوع التصميم المطلوب",
-                btn_send_wa: "إرسال عبر واتساب",
-                order_prefix: "طلب خدمة: ",
-                design_options: [
-                    {val: "", text: "-- اختر نوع التصميم --"},
-                    {val: "سوشيال ميديا", text: "تصميم بوستات سوشيال ميديا"},
-                    {val: "مطبوعات", text: "تصميم مطبوعات (بروشور، فلاير)"},
-                    {val: "منيو", text: "تصميم منيو (مطاعم/مقاهي)"},
-                    {val: "بطاقة عمل", text: "تصميم بطاقة عمل"},
-                    {val: "إعلانات", text: "تصميم بنرات إعلانية"},
-                    {val: "آخر", text: "طلب خاص آخر"}
-                ]
-            },
-            en: {
-                loading: "Loading...",
-                nav_home: "Home",
-                nav_services: "Services",
-                nav_about: "About Us",
-                btn_order: "Order Project",
-                hero_title_1: "Turning your vision into",
-                hero_title_accent: "Visual Reality",
-                hero_title_2: "Stunningly",
-                hero_desc: "We combine cinematography, design beauty, and coding power to create an unforgettable presence for your brand.",
-                btn_start: "Get Started",
-                btn_know_us: "Learn More",
-                services_title: "Our Professional Services",
-                service_1_title: "Cinematography",
-                service_1_desc: "Product, real estate, and commercial photography with 4K and pro lighting.",
-                service_2_title: "Visual Identity",
-                service_2_desc: "Complete logo and branding design reflecting your brand values.",
-                service_4_title: "Web Development",
-                service_4_desc: "Building fast, responsive, and secure websites with latest technologies.",
-                btn_request: "Request Service",
-                about_title: "Our Story & Creativity",
-                about_desc: "RAF DESIGN studio started from a deep passion for visual beauty and innovative tech solutions. We are not just providers, we are partners in your success.",
-                stat_projects: "Projects Completed",
-                stat_clients: "Happy Clients",
-                stat_years: "Years Experience",
-                stat_awards: "Awards Received",
-                order_new_title: "Request New Service",
-                label_name: "Full Name",
-                placeholder_name: "Enter your name...",
-                label_phone: "Phone Number",
-                label_details: "Additional Details",
-                placeholder_details: "Describe your idea in detail...",
-                label_design_type: "Design Type Needed",
-                btn_send_wa: "Send via WhatsApp",
-                order_prefix: "Requesting: ",
-                design_options: [
-                    {val: "", text: "-- Select Design Type --"},
-                    {val: "Social Media", text: "Social Media Posts"},
-                    {val: "Printables", text: "Print Design (Brochure, Flyer)"},
-                    {val: "Menu", text: "Menu Design"},
-                    {val: "Business Card", text: "Business Cards"},
-                    {val: "Ads", text: "Ad Banners"},
-                    {val: "Other", text: "Other Special Request"}
-                ]
+        // Generic Text Update
+        function updateText(id, value) {
+            if(value && value.trim() !== "") {
+                document.getElementById(id).innerText = value;
             }
-        };
+        }
 
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'raf-design-prod';
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        // Color Variable Update
+        function updateColor(variable, value) {
+            document.documentElement.style.setProperty(variable, value);
+        }
 
-        let currentLang = 'ar';
-        let currentConfig = { phone: "0696287105", fb: "#", adminPass: "RAFIK20069" };
-        let selectedServiceNameAr = "";
-        let selectedServiceNameEn = "";
-        let currentUser = null;
-
-        window.changeLanguage = (lang) => {
-            currentLang = lang;
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            
-            // Translate all elements with data-i18n
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                el.innerText = translations[lang][key];
-            });
-
-            // Translate placeholders
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                el.placeholder = translations[lang][key];
-            });
-
-            // Update design options in dropdown
-            const specSelect = document.getElementById('order-spec');
-            specSelect.innerHTML = translations[lang].design_options.map(opt => 
-                `<option value="${opt.val}">${opt.text}</option>`
-            ).join('');
-
-            // Update order heading if page is active
-            if(selectedServiceNameAr) {
-                const prefix = translations[lang].order_prefix;
-                const name = lang === 'ar' ? selectedServiceNameAr : selectedServiceNameEn;
-                document.getElementById('order-heading').innerText = prefix + name;
+        // Core Image Upload Handler (Base64)
+        function handleImageUpload(input, targetId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgElement = document.getElementById(targetId);
+                    imgElement.src = e.target.result;
+                    console.log("Image updated for: " + targetId);
+                };
+                reader.onerror = function() {
+                    alert("حدث خطأ أثناء تحميل الصورة. يرجى المحاولة مرة أخرى.");
+                };
+                reader.readAsDataURL(input.files[0]);
             }
-        };
+        }
 
-        window.openOrder = (serviceAr, serviceEn) => {
-            selectedServiceNameAr = serviceAr;
-            selectedServiceNameEn = serviceEn;
-            const prefix = translations[currentLang].order_prefix;
-            const name = currentLang === 'ar' ? serviceAr : serviceEn;
-            document.getElementById('order-heading').innerText = prefix + name;
-            
-            const specContainer = document.getElementById('specialization-container');
-            const specSelect = document.getElementById('order-spec');
-            
-            if(serviceAr === "SUPER DESIGNING") {
-                specContainer.classList.remove('hidden');
-                specSelect.required = true;
-            } else {
-                specContainer.classList.add('hidden');
-                specSelect.required = false;
-                specSelect.value = "";
+        // Special Logo Handler
+        function handleLogoUpload(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const logoImg = document.getElementById('logo-preview');
+                    const logoIcon = document.getElementById('logo-text-icon');
+                    logoImg.src = e.target.result;
+                    logoImg.classList.remove('hidden');
+                    logoIcon.classList.add('hidden');
+                };
+                reader.readAsDataURL(input.files[0]);
             }
+        }
 
-            window.showPage('order');
-        };
-
-        window.showPage = (id) => {
-            document.querySelectorAll('.page').forEach(p => {
-                p.classList.remove('active');
-                p.style.display = 'none';
-            });
-            const target = document.getElementById(id + '-page');
-            target.style.display = 'block';
-            setTimeout(() => target.classList.add('active'), 50);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        // Firebase Auth & Init
-        onAuthStateChanged(auth, async (user) => {
-            currentUser = user;
-            if (user) {
-                const docSnap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'config', 'settings'));
-                if (docSnap.exists()) {
-                    currentConfig = { ...currentConfig, ...docSnap.data() };
-                }
-                
-                document.getElementById('cfg-phone').value = currentConfig.phone;
-                document.getElementById('cfg-fb').value = currentConfig.fb;
-                document.getElementById('foot-fb').href = currentConfig.fb;
-                document.getElementById('foot-wa').href = `https://wa.me/${currentConfig.phone}`;
-                
-                const loader = document.getElementById('loading');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 500);
-                
-                // Initialize Language
-                changeLanguage('ar');
-                setupOrdersListener();
-            } else {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            }
-        });
-
-        document.getElementById('order-form').onsubmit = async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('order-name').value;
-            const phone = document.getElementById('order-phone').value;
-            const details = document.getElementById('order-desc').value;
-            const spec = document.getElementById('order-spec').value;
+        // Download logic that cleans the UI first
+        function downloadPage() {
+            // Clone the current state
+            const editorPanel = document.querySelector('.editor-panel');
+            const editControls = document.querySelectorAll('.editor-controls');
             
-            const serviceFull = selectedServiceNameAr + (spec ? ` (${spec})` : "");
+            // Hide editor elements temporarily
+            editorPanel.style.display = 'none';
+            editControls.forEach(c => c.style.display = 'none');
+            document.body.classList.remove('editing-mode');
+
+            // Construct HTML string
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
             
-            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'orders'), {
-                name, phone, details, service: serviceFull, timestamp: Date.now()
-            });
-
-            const waPhone = currentConfig.phone.startsWith('0') ? '212' + currentConfig.phone.substring(1) : currentConfig.phone;
-            let msg = `*New Order*%0A*Name:* ${name}%0A*Phone:* ${phone}%0A*Service:* ${serviceFull}%0A*Details:* ${details}`;
-            window.open(`https://wa.me/${waPhone}?text=${msg}`, '_blank');
-            window.showPage('home');
-        };
-
-        window.triggerAdmin = () => {
-            const panel = document.getElementById('admin-panel');
-            if(panel.classList.contains('open')) panel.classList.remove('open');
-            else if(prompt("Admin Key:") === currentConfig.adminPass) panel.classList.add('open');
-        };
-
-        window.saveConfig = async () => {
-            currentConfig.phone = document.getElementById('cfg-phone').value;
-            currentConfig.fb = document.getElementById('cfg-fb').value;
-            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'config', 'settings'), currentConfig);
-            alert("Updated!");
-            location.reload();
-        };
-
-        function setupOrdersListener() {
-            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'orders'), (snap) => {
-                const container = document.getElementById('admin-orders');
-                container.innerHTML = "";
-                snap.forEach(d => {
-                    const div = document.createElement('div');
-                    div.className = "bg-white p-3 rounded-lg shadow-sm mb-2 border-l-4 border-purple-500";
-                    div.innerHTML = `<p class="font-bold text-xs">${d.data().name}</p><p class="text-[10px] opacity-70">${d.data().service}</p>`;
-                    container.appendChild(div);
-                });
-            });
+            // Create Download link
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'mahbool_custom_site.html';
+            a.click();
+            
+            // Restore UI
+            editorPanel.style.display = 'block';
+            editControls.forEach(c => c.style.display = 'block');
+            window.URL.revokeObjectURL(url);
+            
+            alert("تم إنشاء ملف الموقع بنجاح! الصور التي رفعتها أصبحت الآن جزءاً من الملف.");
         }
     </script>
+
 </body>
 </html>
