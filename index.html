@@ -1,650 +1,526 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAF DESIGN | Creative Agency</title>
-    <!-- Font Awesome للأيقونات -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAF DESIGN | إبداع متكامل</title>
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap');
 
-        :root {
-            --primary-purple: #4b164c;
-            --secondary-purple: #2d0d2e;
-            --gold: #c9a050;
-            --gold-light: #e0bc75;
-            --bg-gray: #f8f9fa;
-            --text-dark: #222;
-            --white: #ffffff;
-            --transition: all 0.3s ease;
-            --danger: #e74c3c;
-            --success: #27ae60;
-        }
+        :root {
+            --primary-purple: #4b164c;
+            --secondary-purple: #2d0d2e;
+            --gold: #c9a050;
+            --gold-light: #e0bc75;
+            --bg-gray: #f8f9fa;
+            --text-dark: #333;
+            --white: #ffffff;
+            --success: #27ae60;
+        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: var(--transition);
-        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
 
-        body {
-            background-color: var(--white);
-            color: var(--text-dark);
-            line-height: 1.7;
-            overflow-x: hidden;
-            font-family: 'Cairo', 'Poppins', sans-serif;
-        }
+        body {
+            background-color: var(--white);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-        [dir="ltr"] { font-family: 'Poppins', sans-serif; }
-        [dir="rtl"] { font-family: 'Cairo', sans-serif; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+        /* Header & Navigation */
+        header {
+            background: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 12px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
+        .logo-img {
+            max-height: 50px;
+            display: none;
+        }
 
-        #site-logo-img {
-            max-height: 50px;
-            display: none;
-            object-fit: contain;
-        }
+        .logo-box {
+            background: linear-gradient(135deg, var(--gold), var(--primary-purple));
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
 
-        .logo-box {
-            background: linear-gradient(135deg, var(--gold), var(--primary-purple));
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-weight: 700;
-        }
+        .logo-text {
+            color: var(--primary-purple);
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+        }
 
-        .logo-text {
-            color: var(--primary-purple);
-            font-weight: 800;
-            font-size: 1.5rem;
-        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
 
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: 0.3s;
+            cursor: pointer;
+        }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 25px;
-        }
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--gold);
+        }
 
-        nav ul li a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-            cursor: pointer;
-            padding: 5px 0;
-            position: relative;
-        }
+        /* Page Transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+            min-height: 70vh;
+        }
 
-        nav ul li a:hover, nav ul li a.active { color: var(--gold); }
+        .page.active {
+            display: block;
+        }
 
-        .lang-select {
-            padding: 5px 10px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            cursor: pointer;
-        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Page System */
-        .page {
-            display: none;
-            animation: fadeIn 0.5s ease;
-            min-height: 80vh;
-        }
+        /* Hero Section */
+        .hero { padding: 80px 0; background-color: var(--bg-gray); }
+        .hero-flex { display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+        .hero-text { flex: 1; }
+        .hero-text h1 { color: var(--primary-purple); font-size: 3rem; margin-bottom: 10px; }
 
-        .page.active { display: block; }
+        /* Shared Styling */
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .btn-gold { background: var(--gold); color: white; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        /* Order Form */
+        .order-container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--gold);
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--primary-purple); }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-        /* Hero */
-        .hero { padding: 80px 0; background: #fdfdfd; }
-        .hero-flex { display: flex; align-items: center; justify-content: space-between; gap: 50px; flex-wrap: wrap; }
-        .hero-text { flex: 1; min-width: 300px; }
-        .hero-image { flex: 1; min-width: 300px; }
-        .hero-image img { width: 100%; border-radius: 30px; box-shadow: 20px 20px 0 var(--gold); }
-        .hero-text h1 { color: var(--primary-purple); font-size: 3.5rem; margin-bottom: 15px; }
+        /* --- Admin System Styles --- */
+        .admin-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none; justify-content: center; align-items: center; z-index: 10001;
+        }
+        .admin-modal {
+            background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 450px;
+        }
+        #admin-edit-panel {
+            position: fixed; bottom: 20px; left: 20px; width: 380px;
+            background: white; padding: 20px; border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3); display: none; z-index: 10000;
+            max-height: 85vh; overflow-y: auto; border-top: 5px solid var(--gold);
+        }
+        .admin-section { border-bottom: 1px solid #eee; margin-bottom: 15px; padding-bottom: 15px; }
+        .admin-section h4 { margin-bottom: 10px; color: var(--gold); font-size: 0.9rem; border-right: 3px solid var(--gold); padding-right: 10px; }
 
-        /* Buttons */
-        .btn-gold { 
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            color: white; padding: 14px 35px; border: none; border-radius: 12px; 
-            cursor: pointer; font-weight: 700; display: inline-flex; align-items: center; gap: 10px;
-        }
-        .btn-gold:hover { transform: translateY(-3px); }
+        #toggle-admin-btn {
+            position: fixed; bottom: 20px; right: 20px; background: var(--gold);
+            color: white; width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
 
-        .btn-outline {
-            background: transparent; border: 2px solid #ddd; color: #666;
-            padding: 10px 25px; border-radius: 10px; cursor: pointer; font-weight: 600;
-        }
-
-        /* Admin & Modals */
-        .admin-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); display: none; justify-content: center;
-            align-items: center; z-index: 3000; backdrop-filter: blur(5px);
-        }
-
-        #admin-panel {
-            position: fixed; top: 0; left: 0; width: 450px; height: 100%;
-            background: white; z-index: 4000; display: none; flex-direction: column;
-            box-shadow: 10px 0 40px rgba(0,0,0,0.1); border-right: 6px solid var(--gold);
-            padding: 30px; overflow-y: auto;
-        }
-
-        /* Form Controls */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--primary-purple); }
-        .form-group input, .form-group textarea { 
-            width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 10px; outline: none;
-        }
-        .file-upload-wrapper {
-            position: relative;
-            background: #eee;
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px dashed #ccc;
-            text-align: center;
-            cursor: pointer;
-        }
-        .file-upload-wrapper input[type="file"] {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        /* Orders Table */
-        .orders-container {
-            margin-top: 30px; overflow-x: auto; background: white; border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 15px; border-bottom: 1px solid #eee; text-align: right; }
-        [dir="ltr"] th, [dir="ltr"] td { text-align: left; }
-        th { background: var(--primary-purple); color: white; }
-
-        .status-badge {
-            padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;
-        }
-        .status-new { background: #e3f2fd; color: #1976d2; }
-
-        /* About Section Styles */
-        .about-card {
-            display: flex; gap: 40px; align-items: center; margin-bottom: 60px;
-            background: #fff; padding: 40px; border-radius: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.03);
-        }
-        .about-card:nth-child(even) { flex-direction: row-reverse; }
-        .about-img { flex: 1; border-radius: 20px; overflow: hidden; height: 350px; }
-        .about-img img { width: 100%; height: 100%; object-fit: cover; }
-        .about-info { flex: 1.2; }
-
-        @media (max-width: 768px) {
-            #admin-panel { width: 100%; }
-            nav ul { display: none; }
-            .about-card, .about-card:nth-child(even) { flex-direction: column; padding: 20px; }
-            .hero-text h1 { font-size: 2.5rem; }
-        }
-    </style>
+        /* Footer */
+        footer { background: var(--primary-purple); color: white; padding: 40px 0; margin-top: 50px; }
+        .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .footer-socials a { color: white; margin-right: 15px; font-size: 1.2rem; }
+    </style>
 </head>
 <body>
 
-    <!-- Floating Admin Button -->
-    <div id="toggle-admin-btn" style="position: fixed; bottom: 30px; right: 30px; background: var(--primary-purple); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2000; box-shadow: 0 10px 25px rgba(0,0,0,0.2);" onclick="openAuthModal()">
-        <i class="fas fa-cog fa-lg"></i>
-    </div>
+    <!-- زر لوحة التحكم -->
+    <div id="toggle-admin-btn" onclick="checkAdminAccess()">
+        <i class="fas fa-lock"></i>
+    </div>
 
-    <!-- Admin Panel (Sidebar) -->
-    <div id="admin-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <h2 data-i18n="admin_settings">لوحة التحكم</h2>
-            <button onclick="closeAdmin()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-        </div>
-        
-        <div style="display: flex; flex-direction: column; gap: 20px;">
-            <!-- Admin Navigation -->
-            <button class="btn-gold" style="width:100%" onclick="showPage('orders-list'); closeAdmin();">
-                <i class="fas fa-list-check"></i>
-                <span data-i18n="nav_orders">عرض جميع الطلبات</span>
-            </button>
+    <!-- نافذة طلب الكود -->
+    <div id="auth-modal" class="admin-modal-overlay">
+        <div class="admin-modal">
+            <h3 style="text-align:center; color:var(--primary-purple); margin-bottom:15px;">لوحة التحكم الأمنية</h3>
+            <div class="form-group">
+                <input type="password" id="admin-pass-input" placeholder="أدخل كود الوصول">
+            </div>
+            <button class="btn-gold" style="width:100%" onclick="verifyAdmin()">دخول</button>
+            <button class="btn-gold" style="width:100%; background:#888; margin-top:10px;" onclick="closeAuth()">إلغاء</button>
+        </div>
+    </div>
 
-            <!-- Settings Sections -->
-            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; border: 1px dashed #ddd;">
-                <h4 style="margin-bottom:15px; color: var(--primary-purple);" data-i18n="admin_site_name">إعدادات الهوية والتواصل</h4>
-                
-                <div class="form-group">
-                    <label>اسم الوكالة</label>
-                    <input type="text" id="admin-logo-text">
-                </div>
+    <!-- لوحة التعديل المتقدمة -->
+    <div id="admin-edit-panel">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+            <strong style="font-size: 1.2rem;">إعدادات الموقع المتقدمة</strong>
+            <i class="fas fa-times" onclick="closeAdminPanel()" style="cursor:pointer"></i>
+        </div>
 
-                <div class="form-group">
-                    <label>شعار الوكالة (رفع ملف)</label>
-                    <div class="file-upload-wrapper">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <span id="file-name-label">اضغط لاختيار صورة الشعار</span>
-                        <input type="file" id="admin-logo-file" accept="image/*" onchange="handleLogoUpload(this)">
-                    </div>
-                    <p style="font-size: 0.75rem; color: #888; margin-top: 5px;">* سيتم استبدال الشعار الحالي بالملف المختار</p>
-                    <div id="logo-preview-box" style="margin-top:10px; text-align:center; display:none;">
-                        <img id="logo-preview-img" src="" style="max-height: 40px; border: 1px solid #ddd; padding: 5px; border-radius: 5px;">
-                        <button onclick="clearLogo()" style="display:block; margin: 5px auto; font-size: 0.7rem; color: var(--danger); background: none; border:none; cursor:pointer;">حذف الشعار</button>
-                    </div>
-                </div>
+        <!-- قسم الهوية -->
+        <div class="admin-section">
+            <h4>هوية الموقع والشعار</h4>
+            <div class="form-group">
+                <label>اسم الشركة</label>
+                <input type="text" id="edit-logo-text">
+            </div>
+            <div class="form-group">
+                <label>رابط اللوجو (صورة)</label>
+                <input type="text" id="edit-logo-url" placeholder="ضع رابط الصورة هنا">
+                <small style="font-size:0.7rem; color:#888">إذا وضعت رابطاً، سيختفي النص ويظهر اللوجو.</small>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>رقم الواتساب (بالكود الدولي)</label>
-                    <input type="text" id="admin-whatsapp" placeholder="212600000000">
-                </div>
+        <!-- قسم الروابط -->
+        <div class="admin-section">
+            <h4>روابط التواصل الاجتماعي</h4>
+            <div class="form-group">
+                <label>رابط الفيسبوك</label>
+                <input type="text" id="edit-fb-url" placeholder="https://facebook.com/...">
+            </div>
+            <div class="form-group">
+                <label>رابط الانستغرام</label>
+                <input type="text" id="edit-ig-url" placeholder="https://instagram.com/...">
+            </div>
+            <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input type="text" id="edit-phone">
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>رابط انستغرام</label>
-                    <input type="text" id="admin-instagram" placeholder="https://instagram.com/username">
-                </div>
+        <!-- قسم التبويبات -->
+        <div class="admin-section">
+            <h4>إدارة تبويبات القائمة</h4>
+            <div id="tabs-list-admin">
+                <!-- ستظهر التبويبات هنا برمجياً -->
+            </div>
+            <button class="btn-gold" style="width:100%; background:var(--primary-purple); margin-top:10px; font-size: 0.8rem;" onclick="addNewTabPrompt()">+ إضافة تبويب جديد</button>
+        </div>
 
-                <div class="form-group">
-                    <label>رابط بيهانس (Behance)</label>
-                    <input type="text" id="admin-behance" placeholder="https://behance.net/username">
-                </div>
+        <!-- قسم الأمان -->
+        <div class="admin-section">
+            <h4>الأمان</h4>
+            <div class="form-group">
+                <label>تغيير كود الدخول</label>
+                <input type="password" id="edit-new-pass" placeholder="اتركه فارغاً للحفاظ على الكود الحالي">
+            </div>
+        </div>
 
-                <button class="btn-gold" style="width:100%; font-size: 0.9rem;" onclick="saveChanges()">
-                    <i class="fas fa-save"></i> <span data-i18n="save_all">حفظ الإعدادات</span>
-                </button>
-            </div>
+        <button class="btn-gold" style="width:100%; padding: 15px;" onclick="saveAllSiteChanges()">حفظ كافة التغييرات</button>
+    </div>
 
-            <button class="btn-outline" style="width:100%; color: var(--danger); border-color: var(--danger);" onclick="logoutAdmin()">
-                <i class="fas fa-sign-out-alt"></i> خروج من التعديل
-            </button>
-        </div>
-    </div>
+    <header>
+        <div class="container nav-content">
+            <nav>
+                <ul id="main-nav">
+                    <li><a onclick="showPage('home')" id="nav-home" class="active">الرئيسية</a></li>
+                    <li><a onclick="showPage('services')" id="nav-services">خدماتنا</a></li>
+                    <li><a onclick="showPage('about')" id="nav-about">من نحن</a></li>
+                    <!-- التبويبات الإضافية تضاف هنا -->
+                </ul>
+            </nav>
+            <a href="#" class="logo" onclick="showPage('home')">
+                <img src="" id="display-logo-img" class="logo-img">
+                <div id="display-logo-wrapper">
+                    <span class="logo-text" id="display-logo-text">RAF DESIGN</span>
+                    <div class="logo-box">RG</div>
+                </div>
+            </a>
+        </div>
+    </header>
 
-    <!-- Auth Modal -->
-    <div id="auth-modal" class="admin-modal-overlay">
-        <div style="background: white; padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center;">
-            <h3 data-i18n="admin_login" style="margin-bottom:10px;">دخول وضع التعديل</h3>
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">يرجى إدخال رمز الوصول السري</p>
-            <input type="password" id="auth-input" placeholder="••••••••" style="width:100%; padding:15px; margin-bottom:20px; border:2px solid #eee; border-radius:12px; text-align: center; font-size: 1.2rem;">
-            <div style="display:flex; gap:10px;">
-                <button class="btn-outline" style="flex:1" onclick="closeModal('auth-modal')" data-i18n="btn_back">إلغاء</button>
-                <button class="btn-gold" style="flex:2" onclick="checkAccess()" data-i18n="login">دخول</button>
-            </div>
-        </div>
-    </div>
+    <!-- الصفحة الرئيسية -->
+    <main id="home-page" class="page active">
+        <section class="hero">
+            <div class="container hero-flex">
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=1470&auto=format&fit=crop" alt="الإبداع الرقمي">
+                </div>
+                <div class="hero-text">
+                    <h1>:RAF DESIGN</h1>
+                    <h2>شريكك في الإبداع والنمو الرقمي</h2>
+                    <button class="btn-gold" onclick="showPage('services')">اطلب خدمتك الآن</button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="container" style="padding: 60px 0;">
+            <div class="section-header">
+                <h2>خدماتنا الأساسية</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <div style="text-align:center; padding:30px; background:var(--bg-gray); border-radius:20px;">
+                    <i class="fas fa-camera fa-3x" style="color:var(--gold); margin-bottom:15px;"></i>
+                    <h3>تصوير احترافي</h3>
+                    <button class="btn-gold" style="margin-top:15px;" onclick="openOrder('التصوير')">طلب الخدمة</button>
+                </div>
+                <div style="text-align:center; padding:30px; background:var(--bg-gray); border-radius:20px;">
+                    <i class="fas fa-palette fa-3x" style="color:var(--primary-purple); margin-bottom:15px;"></i>
+                    <h3>تصميم إعلانات</h3>
+                    <button class="btn-gold" style="margin-top:15px;" onclick="openOrder('التصميم الإعلاني')">طلب الخدمة</button>
+                </div>
+                <div style="text-align:center; padding:30px; background:var(--bg-gray); border-radius:20px;">
+                    <i class="fas fa-laptop-code fa-3x" style="color:var(--gold); margin-bottom:15px;"></i>
+                    <h3>تصميم المواقع</h3>
+                    <button class="btn-gold" style="margin-top:15px;" onclick="openOrder('تصميم المواقع')">طلب الخدمة</button>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    <header>
-        <div class="container nav-content">
-            <a href="#" class="logo" onclick="showPage('home')">
-                <img id="site-logo-img" src="" alt="Logo">
-                <div id="logo-text-wrapper" style="display: flex; align-items: center; gap: 10px;">
-                    <span class="logo-text" id="logo-txt">RAF DESIGN</span>
-                    <div class="logo-box">RD</div>
-                </div>
-            </a>
-            <div class="nav-controls">
-                <nav>
-                    <ul id="navbar-links">
-                        <li><a onclick="showPage('home')" id="nav-home" class="active" data-i18n="nav_home">الرئيسية</a></li>
-                        <li><a onclick="showPage('services')" id="nav-services" data-i18n="nav_services">خدماتنا</a></li>
-                        <li><a onclick="showPage('about')" id="nav-about" data-i18n="nav_about">من نحن</a></li>
-                    </ul>
-                </nav>
-                <select class="lang-select" onchange="changeLang(this.value)">
-                    <option value="ar">العربية</option>
-                    <option value="en">English</option>
-                </select>
-            </div>
-        </div>
-    </header>
+    <!-- صفحة الخدمات -->
+    <main id="services-page" class="page">
+        <div class="container">
+            <div class="section-header" style="padding-top:40px;">
+                <h2>خدماتنا بالتفصيل</h2>
+                <p>نحن نقدم حلولاً بصرية وتقنية متكاملة لرفع مستوى علامتك التجارية</p>
+            </div>
 
-    <div id="pages-container">
-        <!-- Home Page -->
-        <main id="home-page" class="page active">
-            <section class="hero">
-                <div class="container hero-flex">
-                    <div class="hero-text">
-                        <h1 id="hero-title">RAF DESIGN</h1>
-                        <h2 data-i18n="hero_subtitle">إبداع بلا حدود، رؤية تتحقق</h2>
-                        <p style="font-size:1.1rem; color:#555; margin-bottom:30px;" data-i18n="hero_desc">وكالة رائدة في التصميم والهوية البصرية، نجمع بين الفن والاحترافية.</p>
-                        <button class="btn-gold" onclick="showPage('services')">
-                            <span data-i18n="hero_btn">استعرض خدماتنا</span>
-                            <i class="fas fa-arrow-left"></i>
-                        </button>
-                    </div>
-                    <div class="hero-image">
-                        <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=1000" alt="Design Portfolio">
-                    </div>
-                </div>
-            </section>
-        </main>
+            <div class="service-detail-item">
+                <div class="service-detail-text">
+                    <h3>التصوير الفوتوغرافي والفيديو</h3>
+                    <p>نقدم خدمات تصوير المنتجات، جلسات التصوير الخارجية، وتصوير الفيديوهات السينمائية والمونتاج الاحترافي.</p>
+                    <button class="btn-gold" onclick="openOrder('التصوير والفيديو')">حجز الخدمة الآن</button>
+                </div>
+                <div class="service-detail-image">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1000" alt="خدمات التصوير">
+                </div>
+            </div>
+        </div>
+    </main>
 
-        <!-- Services Page -->
-        <main id="services-page" class="page">
-            <div class="container" style="padding:60px 0; text-align: center;">
-                <h2 style="font-size:2.5rem; margin-bottom:40px;" data-i18n="services_title">خدماتنا الإبداعية</h2>
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:25px;">
-                    <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-                        <i class="fas fa-pen-nib fa-3x" style="color:var(--gold); margin-bottom:20px;"></i>
-                        <h3 data-i18n="service_1_title">تصميم الشعارات</h3>
-                        <p data-i18n="service_1_desc" style="color:#777; margin:15px 0;">نبتكر شعارات فريدة تعبر عن جوهر علامتك التجارية وتترك انطباعاً لا يُنسى.</p>
-                        <button class="btn-outline" onclick="openOrder('Logo Design')" data-i18n="order_now">اطلب الآن</button>
-                    </div>
-                    <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-                        <i class="fas fa-video fa-3x" style="color:var(--gold); margin-bottom:20px;"></i>
-                        <h3 data-i18n="service_2_title">المونتاج والإخراج</h3>
-                        <p data-i18n="service_2_desc" style="color:#777; margin:15px 0;">تحويل لقطاتك إلى قصص بصرية مذهلة باستخدام أحدث تقنيات التحرير والمؤثرات.</p>
-                        <button class="btn-outline" onclick="openOrder('Video Editing')" data-i18n="order_now">اطلب الآن</button>
-                    </div>
-                    <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-                        <i class="fas fa-icons fa-3x" style="color:var(--gold); margin-bottom:20px;"></i>
-                        <h3 data-i18n="service_3_title">تصاميم السوشيال ميديا</h3>
-                        <p data-i18n="service_3_desc" style="color:#777; margin:15px 0;">إدارة وتصميم محتوى جذاب لمنصات التواصل الاجتماعي لزيادة التفاعل والانتشار.</p>
-                        <button class="btn-outline" onclick="openOrder('Social Media Design')" data-i18n="order_now">اطلب الآن</button>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <!-- صفحة من نحن -->
+    <main id="about-page" class="page">
+        <div class="container" style="padding: 80px 0;">
+            <h2 style="color:var(--primary-purple); font-size:2.5rem; margin-bottom:20px;">من هي RAF DESIGN؟</h2>
+            <p>نحن وكالة إبداعية متكاملة متخصصة في صناعة المحتوى البصري والحلول الرقمية.</p>
+        </div>
+    </main>
 
-        <!-- About Us Page -->
-        <main id="about-page" class="page">
-            <div class="container" style="padding: 80px 0;">
-                <div style="text-align: center; margin-bottom: 60px;">
-                    <h2 style="font-size: 3rem; color: var(--primary-purple); margin-bottom: 15px;">من نحن؟</h2>
-                    <p style="font-size: 1.2rem; color: #666; max-width: 700px; margin: 0 auto;">نحن فريق من المبدعين شغوفين بتحويل الأفكار إلى واقع بصري ملموس يتخطى التوقعات.</p>
-                </div>
+    <!-- التبويبات الديناميكية (ستظهر كصفحات فارغة حالياً) -->
+    <div id="dynamic-pages"></div>
 
-                <div class="about-card">
-                    <div class="about-img">
-                        <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1000" alt="Our Philosophy">
-                    </div>
-                    <div class="about-info">
-                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 15px;">رؤيتنا وفلسفتنا</h3>
-                        <p style="color: #444;">نؤمن في <strong>RAF DESIGN</strong> أن التصميم ليس مجرد شكل، بل هو لغة تواصل صامتة. فلسفتنا تقوم على البساطة مع العمق، حيث نسعى دائماً لتبسيط المعقد وتقديمه في قالب فني أنيق يخدم أهداف عملائنا الاستراتيجية.</p>
-                    </div>
-                </div>
+    <!-- صفحة الطلب -->
+    <main id="order-page" class="page">
+        <div class="container">
+            <div class="order-container">
+                <h2 style="text-align:center; margin-bottom:30px;">طلب خدمة: <span id="target-service" style="color:var(--gold)"></span></h2>
+                <form onsubmit="handleOrder(event)">
+                    <div class="form-row">
+                        <div class="form-group"><label>الاسم</label><input type="text" required></div>
+                        <div class="form-group"><label>اللقب</label><input type="text" required></div>
+                    </div>
+                    <div class="form-group"><label>رقم الهاتف</label><input type="tel" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>الدولة</label><input type="text" required></div>
+                        <div class="form-group"><label>الولاية</label><input type="text" required></div>
+                    </div>
+                    <div class="form-group"><label>وسيلة تواصل</label><input type="text" placeholder="رابط الحساب"></div>
+                    <button type="submit" class="btn-gold" style="width:100%; padding:15px;">تأكيد الطلب</button>
+                </form>
+            </div>
+        </div>
+    </main>
 
-                <div class="about-card">
-                    <div class="about-img">
-                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000" alt="Our Expertise">
-                    </div>
-                    <div class="about-info">
-                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 15px;">خبراتنا واحترافيتنا</h3>
-                        <p style="color: #444;">بخبرة تمتد لسنوات في السوق، قدمنا حلولاً بصرية لمئات المشاريع الناجحة. نستخدم أحدث برامج التصميم العالمية ونواكب التطورات التقنية لحظة بلحظة لضمان جودة استثنائية (Ultra HD) في كل ملف نسلمه لعملائنا.</p>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <footer>
+        <div class="container footer-flex">
+            <div id="display-phone">0270 9325300 <i class="fa-solid fa-phone"></i></div>
+            <div class="footer-socials">
+                <a href="#" id="display-fb"><i class="fab fa-facebook"></i></a>
+                <a href="#" id="display-ig"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div>&copy; 2024 RAF DESIGN - جميع الحقوق محفوظة</div>
+        </div>
+    </footer>
 
-        <!-- Order Page -->
-        <main id="order-page" class="page">
-            <div class="container">
-                <div style="max-width:550px; margin:50px auto; background:white; padding:40px; border-radius:25px; box-shadow:0 15px 40px rgba(0,0,0,0.08);">
-                    <h2 id="order-title-display" style="text-align:center; margin-bottom:25px; color: var(--primary-purple);">تفاصيل الطلب</h2>
-                    <form id="main-order-form" onsubmit="confirmOrder(event)">
-                        <input type="hidden" id="selected-service">
-                        <div class="form-group">
-                            <label data-i18n="label_name">اسمك الكريم</label>
-                            <input type="text" id="order-name" placeholder="أدخل اسمك" required>
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="label_phone">رقم التواصل (WhatsApp)</label>
-                            <input type="tel" id="order-tel" placeholder="0000000000" required>
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="label_desc">ما هي فكرة مشروعك؟</label>
-                            <textarea id="order-desc" rows="4" placeholder="اكتب تفاصيل مختصرة هنا..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn-gold" style="width:100%">
-                            <span data-i18n="confirm_btn">إرسال الطلب الآن</span>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </main>
+    <script>
+        const DEFAULT_CODE = "RAFIK20069";
+        let customTabs = JSON.parse(localStorage.getItem('site_tabs')) || [];
 
-        <!-- Orders Management Page (Admin) -->
-        <main id="orders-list-page" class="page">
-            <div class="container" style="padding: 50px 0;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                    <h2 data-i18n="orders_management" style="color: var(--primary-purple);">سجل الطلبات الواردة</h2>
-                    <button class="btn-outline" onclick="showPage('home')">
-                        <i class="fas fa-home"></i> <span data-i18n="btn_back">العودة</span>
-                    </button>
-                </div>
-                <div class="orders-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>التاريخ</th>
-                                <th data-i18n="col_name">العميل</th>
-                                <th data-i18n="col_phone">الهاتف</th>
-                                <th data-i18n="col_service">الخدمة</th>
-                                <th data-i18n="col_desc">التفاصيل</th>
-                                <th data-i18n="col_action">إجراء</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orders-table-body"></tbody>
-                    </table>
-                    <div id="no-orders-msg" style="padding: 50px; text-align: center; color: #bbb; display: none;">
-                        <i class="fas fa-inbox fa-3x" style="margin-bottom: 15px; display: block;"></i>
-                        <span data-i18n="no_orders">لا يوجد طلبات حالياً.</span>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+        // --- نظام الإدارة والتحكم ---
+        function checkAdminAccess() {
+            document.getElementById('auth-modal').style.display = 'flex';
+        }
 
-    <footer>
-        <div class="container" style="border-top: 1px solid #eee; padding: 40px 0; margin-top: 50px; text-align: center;">
-            <p style="font-weight: 700; color: var(--primary-purple); margin-bottom: 15px;" id="footer-logo-txt">RAF DESIGN</p>
-            <div id="social-links-container" style="display: flex; justify-content: center; gap: 20px; font-size: 1.5rem; margin-bottom: 20px;">
-                <a id="footer-inst-link" href="#" target="_blank" style="color: #444;"><i class="fab fa-instagram"></i></a>
-                <a id="footer-beh-link" href="#" target="_blank" style="color: #444;"><i class="fab fa-behance"></i></a>
-                <a id="footer-wa-link" href="#" target="_blank" style="color: #444;"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <p style="font-size: 0.9rem; color: #999;">&copy; 2024 <span id="copyright-name">RAF DESIGN</span>. <span data-i18n="footer_rights">جميع الحقوق محفوظة.</span></p>
-        </div>
-    </footer>
+        function closeAuth() {
+            document.getElementById('auth-modal').style.display = 'none';
+            document.getElementById('admin-pass-input').value = "";
+        }
 
-    <script>
-        const translations = {
-            ar: {
-                nav_home: "الرئيسية", nav_services: "خدماتنا", nav_about: "من نحن", nav_orders: "إدارة الطلبات",
-                hero_subtitle: "إبداع بلا حدود، رؤية تتحقق", hero_desc: "وكالة رائدة في التصميم والهوية البصرية، نجمع بين الفن والاحترافية.", hero_btn: "استعرض خدماتنا",
-                services_title: "خدماتنا الإبداعية", service_1_title: "تصميم الشعارات", service_2_title: "المونتاج والإخراج", service_3_title: "تصاميم السوشيال ميديا",
-                order_now: "اطلب الآن", label_name: "اسمك الكريم", label_phone: "رقم التواصل", label_desc: "ما هي فكرة مشروعك؟", confirm_btn: "إرسال الطلب الآن",
-                admin_login: "دخول وضع التعديل", login: "دخول", footer_rights: "جميع الحقوق محفوظة.",
-                success_msg: "تم إرسال طلبك بنجاح! سنتواصل معك قريباً.", btn_back: "العودة",
-                admin_settings: "لوحة التحكم", admin_site_name: "إعدادات الموقع", save_all: "حفظ الإعدادات",
-                orders_management: "سجل الطلبات", col_name: "العميل", col_phone: "الهاتف", col_service: "الخدمة", col_desc: "التفاصيل", col_action: "إجراء", no_orders: "لا يوجد طلبات حالياً."
-            },
-            en: {
-                nav_home: "Home", nav_services: "Services", nav_about: "About", nav_orders: "Manage Orders",
-                hero_subtitle: "Boundless Creativity, Vision Realized", hero_desc: "Creative agency specialized in visual identity and professional design.", hero_btn: "View Services",
-                services_title: "Our Creative Services", service_1_title: "Logo Design", service_2_title: "Video Editing", service_3_title: "Social Media Design",
-                order_now: "Order Now", label_name: "Full Name", label_phone: "WhatsApp Number", label_desc: "Project Idea", confirm_btn: "Submit Order",
-                admin_login: "Admin Access", login: "Login", footer_rights: "All rights reserved.",
-                success_msg: "Order sent! We will contact you soon.", btn_back: "Back",
-                admin_settings: "Control Panel", admin_site_name: "Site Settings", save_all: "Save Settings",
-                orders_management: "Order Registry", col_name: "Client", col_phone: "Phone", col_service: "Service", col_desc: "Details", col_action: "Action", no_orders: "No orders found."
-            }
-        };
+        function verifyAdmin() {
+            const input = document.getElementById('admin-pass-input').value;
+            const savedCode = localStorage.getItem('adminCode') || DEFAULT_CODE;
 
-        let orders = JSON.parse(localStorage.getItem('raf_orders_db')) || [];
-        let config = JSON.parse(localStorage.getItem('raf_site_config')) || {
-            name: "RAF DESIGN",
-            logo: "",
-            whatsapp: "212600000000",
-            instagram: "#",
-            behance: "#"
-        };
-        let tempLogoBase64 = config.logo; // لحفظ الصورة مؤقتاً قبل الحفظ النهائي
-        let currentLang = 'ar';
+            if (input === savedCode) {
+                closeAuth();
+                openAdminPanel();
+            } else {
+                alert("الكود السري غير صحيح!");
+            }
+        }
 
-        function changeLang(lang) {
-            currentLang = lang;
-            document.documentElement.lang = lang;
-            document.documentElement.dir = (lang === 'ar' ? 'rtl' : 'ltr');
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang] && translations[lang][key]) el.innerText = translations[lang][key];
-            });
-        }
+        function openAdminPanel() {
+            document.getElementById('admin-edit-panel').style.display = 'block';
+            
+            // ملء البيانات الحالية
+            document.getElementById('edit-logo-text').value = localStorage.getItem('site_logo_text') || "RAF DESIGN";
+            document.getElementById('edit-logo-url').value = localStorage.getItem('site_logo_url') || "";
+            document.getElementById('edit-fb-url').value = localStorage.getItem('site_fb') || "#";
+            document.getElementById('edit-ig-url').value = localStorage.getItem('site_ig') || "#";
+            document.getElementById('edit-phone').value = localStorage.getItem('site_phone') || "0270 9325300";
+            
+            renderAdminTabs();
+        }
 
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
-            const target = document.getElementById(id + '-page');
-            if (target) target.classList.add('active');
-            
-            const navLink = document.getElementById('nav-' + id);
-            if(navLink) navLink.classList.add('active');
-            
-            if (id === 'orders-list') renderOrders();
-            window.scrollTo(0, 0);
-        }
+        function renderAdminTabs() {
+            const list = document.getElementById('tabs-list-admin');
+            list.innerHTML = "";
+            customTabs.forEach((tab, index) => {
+                list.innerHTML += `
+                    <div style="display:flex; gap:10px; margin-bottom:5px;">
+                        <input type="text" value="${tab}" onchange="updateTabName(${index}, this.value)" style="flex:1; padding:5px; font-size:0.8rem;">
+                        <button onclick="removeTab(${index})" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">X</button>
+                    </div>
+                `;
+            });
+        }
 
-        function openOrder(service) {
-            document.getElementById('selected-service').value = service;
-            document.getElementById('order-title-display').innerText = (currentLang === 'ar' ? "طلب: " : "Order: ") + service;
-            showPage('order');
-        }
+        function addNewTabPrompt() {
+            const name = prompt("أدخل اسم التبويب الجديد:");
+            if(name) {
+                customTabs.push(name);
+                renderAdminTabs();
+            }
+        }
 
-        // Auth Logic
-        function openAuthModal() {
-            if (sessionStorage.getItem('admin_logged') === 'true') {
-                fillAdminInputs();
-                document.getElementById('admin-panel').style.display = 'flex';
-            } else {
-                document.getElementById('auth-modal').style.display = 'flex';
-            }
-        }
-        
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function updateTabName(index, val) { customTabs[index] = val; }
+        function removeTab(index) { customTabs.splice(index, 1); renderAdminTabs(); }
 
-        function checkAccess() {
-            const pass = document.getElementById('auth-input').value;
-            if (pass === "RAFIK20069") {
-                sessionStorage.setItem('admin_logged', 'true');
-                closeModal('auth-modal');
-                fillAdminInputs();
-                document.getElementById('admin-panel').style.display = 'flex';
-            } else {
-                alert(currentLang === 'ar' ? "الرمز غير صحيح!" : "Wrong Passcode!");
-            }
-        }
+        function saveAllSiteChanges() {
+            localStorage.setItem('site_logo_text', document.getElementById('edit-logo-text').value);
+            localStorage.setItem('site_logo_url', document.getElementById('edit-logo-url').value);
+            localStorage.setItem('site_fb', document.getElementById('edit-fb-url').value);
+            localStorage.setItem('site_ig', document.getElementById('edit-ig-url').value);
+            localStorage.setItem('site_phone', document.getElementById('edit-phone').value);
+            localStorage.setItem('site_tabs', JSON.stringify(customTabs));
 
-        function logoutAdmin() {
-            sessionStorage.removeItem('admin_logged');
-            closeAdmin();
-            showPage('home');
-        }
+            const newPass = document.getElementById('edit-new-pass').value;
+            if(newPass) localStorage.setItem('adminCode', newPass);
 
-        function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
+            alert("تم الحفظ بنجاح! سيتم إعادة تحميل الصفحة لتطبيق التغييرات.");
+            location.reload();
+        }
 
-        // Logo Upload Handling
-        function handleLogoUpload(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    tempLogoBase64 = e.target.result;
-                    document.getElementById('file-name-label').innerText = input.files[0].name;
-                    document.getElementById('logo-preview-img').src = tempLogoBase64;
-                    document.getElementById('logo-preview-box').style.display = 'block';
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+        function closeAdminPanel() { document.getElementById('admin-edit-panel').style.display = 'none'; }
 
-        function clearLogo() {
-            tempLogoBase64 = "";
-            document.getElementById('admin-logo-file').value = "";
-            document.getElementById('file-name-label').innerText = "اضغط لاختيار صورة الشعار";
-            document.getElementById('logo-preview-box').style.display = 'none';
-        }
+        // --- نظام التنقل والمحتوى ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
+            
+            const target = document.getElementById(pageId + '-page');
+            if(target) target.classList.add('active');
+            
+            const nav = document.getElementById('nav-' + pageId);
+            if(nav) nav.classList.add('active');
+            window.scrollTo(0, 0);
+        }
 
-        // Settings Management
-        function fillAdminInputs() {
-            document.getElementById('admin-logo-text').value = config.name;
-            document.getElementById('admin-whatsapp').value = config.whatsapp;
-            document.getElementById('admin-instagram').value = config.instagram;
-            document.getElementById('admin-behance').value = config.behance;
-            
-            // Preview current logo if exists
-            if (config.logo) {
-                document.getElementById('logo-preview-img').src = config.logo;
-                document.getElementById('logo-preview-box').style.display = 'block';
-                tempLogoBase64 = config.logo;
-            }
-        }
+        function openOrder(serviceName) {
+            document.getElementById('target-service').innerText = serviceName;
+            showPage('order');
+        }
 
-        function saveChanges() {
-            config.name = document.getElementById('admin-logo-text').value || "RAF DESIGN";
-            config.logo = tempLogoBase64;
-            config.whatsapp = document.getElementById('admin-whatsapp').value;
-            config.instagram = document.getElementById('admin-instagram').value;
-            config.behance = document.getElementById('admin-behance').value;
-            
-            localStorage.setItem('raf_site_config', JSON.stringify(config));
-            applyConfig();
-            alert(currentLang === 'ar' ? "تم حفظ جميع الإعدادات بنجاح!" : "All Settings Saved Successfully!");
-            closeAdmin();
-        }
+        function handleOrder(e) {
+            e.preventDefault();
+            alert("شكراً لك! تم استلام طلبك.");
+            showPage('home');
+        }
 
-        function applyConfig() {
-            const elements = ['logo-txt', 'footer-logo-txt', 'hero-title', 'copyright-name'];
-            elements.forEach(id => {
-                const el = document.getElementById(id);
-                if(el) el.innerText = config.name;
-            });
+        // تحميل الإعدادات المحفوظة عند التشغيل
+        window.onload = () => {
+            // الشعار
+            const logoText = localStorage.getItem('site_logo_text') || "RAF DESIGN";
+            const logoUrl = localStorage.getItem('site_logo_url');
+            const logoImgEl = document.getElementById('display-logo-img');
+            const logoWrapEl = document.getElementById('display-logo-wrapper');
 
-            const logoImg = document.getElementById('site-logo-img');
-            const logoTextWrap = document.getElementById('logo-text-wrapper');
-            if (config.logo) {
-                logoImg.src = config.logo;
-                logoImg.style.display = 'block';
-                logoTextWrap.style.display = 'none';
-            } else {
-                logoImg.style.display = 'none';
-                logoTextWrap.style.display = 'flex';
-            }
+            if(logoUrl && logoUrl.trim() !== "") {
+                logoImgEl.src = logoUrl;
+                logoImgEl.style.display = "block";
+                logoWrapEl.style.display = "none";
+            } else {
+                document.getElementById('display-logo-text').innerText = logoText;
+            }
 
-            document.getElementById('footer-inst-link').href = config.instagram;
-            document.getElementById('footer-beh-link').href = config.behance
+            // الروابط والهاتف
+            document.getElementById('display-phone').innerHTML = `${localStorage.getItem('site_phone') || "0270 9325300"} <i class="fa-solid fa-phone"></i>`;
+            document.getElementById('display-fb').href = localStorage.getItem('site_fb') || "#";
+            document.getElementById('display-ig').href = localStorage.getItem('site_ig') || "#";
+
+            // التبويبات
+            const navUl = document.getElementById('main-nav');
+            const dynamicPages = document.getElementById('dynamic-pages');
+            customTabs.forEach(tab => {
+                const id = "tab-" + tab.replace(/\s/g, '');
+                // إضافة للقائمة
+                navUl.innerHTML += `<li><a onclick="showPage('${id}')" id="nav-${id}">${tab}</a></li>`;
+                // إضافة صفحة
+                dynamicPages.innerHTML += `
+                    <main id="${id}-page" class="page">
+                        <div class="container" style="padding:100px 0; text-align:center;">
+                            <h2>${tab}</h2>
+                            <p>هذا القسم قيد التطوير أو مخصص لمحتوى إضافي.</p>
+                        </div>
+                    </main>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
