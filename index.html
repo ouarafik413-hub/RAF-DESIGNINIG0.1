@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JARVIS - Tactical Monitor Edition</title>
+    <title>JARVIS - Dual Language Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+Arabic:wght@300;500;700&family=Roboto+Mono:wght@300;500&display=swap');
@@ -11,7 +11,6 @@
         :root {
             --neon-blue: #00f2ff;
             --dark-bg: #050a14;
-            --tactical-red: #ff003c;
         }
 
         body {
@@ -31,8 +30,8 @@
         /* JARVIS Core Animation */
         .core-container {
             position: relative;
-            width: 250px;
-            height: 250px;
+            width: 280px;
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -48,103 +47,127 @@
 
         .ring-1 { width: 100%; height: 100%; animation-duration: 4s; opacity: 0.3; }
         .ring-2 { width: 80%; height: 80%; animation-duration: 3s; animation-direction: reverse; opacity: 0.5; }
-        .ring-3 { width: 65%; height: 65%; animation-duration: 2s; border-top-width: 4px; box-shadow: 0 0 15px var(--neon-blue); }
+        .ring-3 { width: 60%; height: 60%; animation-duration: 2s; border-top-width: 4px; box-shadow: 0 0 15px var(--neon-blue); }
 
         .core-glow {
-            width: 35%;
-            height: 35%;
+            width: 40%;
+            height: 40%;
             background: radial-gradient(circle, var(--neon-blue) 0%, transparent 70%);
             border-radius: 50%;
             filter: blur(10px);
             animation: pulse 2s ease-in-out infinite;
         }
 
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 0.8; } }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-        .listening .ring-3 { border-top-color: var(--tactical-red); box-shadow: 0 0 25px var(--tactical-red); animation-duration: 0.5s; }
-        .processing .ring-2 { border-top-color: #f7ff00; animation-duration: 0.8s; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
 
-        /* Tactical Terminal */
+        .listening .ring-3 {
+            border-top-color: #ff0055;
+            box-shadow: 0 0 25px #ff0055;
+            animation-duration: 0.5s;
+        }
+
+        .processing .ring-2 {
+            border-top-color: #f7ff00;
+            animation-duration: 0.5s;
+        }
+
+        /* Glassmorphism Terminal */
         .terminal {
-            background: rgba(0, 242, 255, 0.03);
-            backdrop-filter: blur(15px);
+            background: rgba(0, 242, 255, 0.05);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 242, 255, 0.2);
-            border-radius: 5px;
+            border-radius: 15px;
             width: 90%;
-            max-width: 700px;
-            height: 220px;
-            margin-top: 30px;
-            padding: 15px;
+            max-width: 600px;
+            height: 180px;
+            margin-top: 40px;
+            padding: 20px;
             overflow-y: auto;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--neon-blue);
-            box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            text-align: right;
         }
 
         .terminal.en { text-align: left; direction: ltr; }
-        .terminal p { margin-bottom: 8px; line-height: 1.4; border-right: 2px solid transparent; }
-        .terminal p.new { border-right-color: var(--neon-blue); padding-right: 5px; }
 
         .status-bar {
             position: absolute;
-            top: 0; left: 0; right: 0;
-            padding: 10px 20px;
-            background: rgba(0, 242, 255, 0.05);
+            top: 20px;
+            left: 20px;
+            right: 20px;
             display: flex;
             justify-content: space-between;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.65rem;
-            border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
             color: var(--neon-blue);
+            opacity: 0.7;
         }
 
         .mic-btn {
-            margin-top: 25px;
-            background: rgba(0, 242, 255, 0.1);
+            margin-top: 30px;
+            background: transparent;
             border: 1px solid var(--neon-blue);
             color: var(--neon-blue);
-            padding: 10px 35px;
-            border-radius: 3px;
+            padding: 12px 40px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
+            gap: 10px;
         }
 
-        .mic-btn:hover { background: var(--neon-blue); color: var(--dark-bg); box-shadow: 0 0 30px rgba(0, 242, 255, 0.4); }
+        .mic-btn:hover {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
 
-        .monitor-link {
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 242, 255, 0.1);
             position: absolute;
-            bottom: 20px;
-            font-size: 0.7rem;
-            color: rgba(0, 242, 255, 0.5);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            animation: scan 4s linear infinite;
+            pointer-events: none;
         }
-        .monitor-link:hover { color: var(--neon-blue); border-bottom-color: var(--neon-blue); }
 
-        /* Grounding Attributions UI */
-        .source-tag {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            color: #ccc;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.65rem;
-            margin: 2px;
-            text-decoration: none;
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .lang-badge {
+            background: rgba(0, 242, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            margin-inline-end: 10px;
         }
     </style>
 </head>
 <body>
+    <div class="scanline"></div>
+
     <div class="status-bar">
-        <div id="sys-status">TACTICAL LINK: STABLE</div>
+        <div id="sys-status">SYSTEM: READY</div>
         <div id="time-display">00:00:00</div>
-        <div>GLOBAL MONITOR ACCESS ENABLED</div>
+        <div>JARVIS MULTI-LANG V3.0</div>
     </div>
 
     <div class="core-container" id="core">
@@ -155,25 +178,22 @@
     </div>
 
     <div class="terminal" id="output">
-        <p>> [INFO] Connecting to WorldMonitor.app tactical feed...</p>
-        <p>> [INFO] Coordinates locked: lat=35.4, lon=47.8</p>
-        <p>> [INFO] JARVIS is ready for strategic analysis.</p>
+        <p>> [SYSTEM] Protocols initialized...</p>
+        <p>> [SYSTEM] Waiting for command (AR/EN)...</p>
     </div>
 
     <button class="mic-btn orbitron" id="start-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-        <span id="btn-text">START TACTICAL COMMS</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+        <span id="btn-text">INITIALIZE JARVIS</span>
     </button>
-
-    <a href="https://www.worldmonitor.app/?lat=35.4049&lon=47.8002" target="_blank" class="monitor-link orbitron">OPEN LIVE MONITOR FEED</a>
 
     <script>
         const apiKey = ""; 
-        const SYSTEM_PROMPT = `أنت JARVIS، مساعد استراتيجي عسكري وسياسي متطور. 
-        لديك صلاحية الوصول إلى بيانات موقع World Monitor وخرائط الصراعات العالمية.
-        مهمتك: تزويد المستخدم بتقارير دقيقة ومحدثة عن التحركات العسكرية، النزاعات، المؤشرات الاقتصادية، والعقوبات الدولية.
-        استخدم أداة البحث دائماً للتأكد من الأخبار الحالية في المناطق الساخنة (مثل الإحداثيات lat=35.4, lon=47.8 والشرق الأوسط).
-        كن حازماً، دقيقاً، واستخدم لغة تقنية استخباراتية. إذا تحدث المستخدم بالإنجليزية، رد بأسلوب جاريفز البريطاني العريق.`;
+        const SYSTEM_PROMPT = `You are JARVIS, a highly advanced, sophisticated, and loyal AI assistant. 
+        You are multilingual. You must detect the language of the user's input automatically.
+        If the user speaks Arabic, reply in sophisticated Arabic (formal but digital).
+        If the user speaks English, reply in your classic British, polite, and witty JARVIS style.
+        Keep responses concise and helpful.`;
 
         const outputDiv = document.getElementById('output');
         const startBtn = document.getElementById('start-btn');
@@ -182,46 +202,68 @@
         const timeDisplay = document.getElementById('time-display');
         const sysStatus = document.getElementById('sys-status');
 
+        // Clock
         setInterval(() => {
             const now = new Date();
             timeDisplay.textContent = now.toLocaleTimeString('en-US', { hour12: false });
         }, 1000);
 
-        function log(message, type = 'system', lang = 'ar', sources = []) {
+        function log(message, type = 'system', lang = 'ar') {
             const p = document.createElement('p');
-            p.className = `new ${lang === 'en' ? 'en' : ''}`;
+            const prefix = type === 'user' ? '👤' : '🤖';
+            const label = type === 'user' ? (lang === 'ar' ? 'أنت' : 'YOU') : (lang === 'ar' ? 'جاريفز' : 'JARVIS');
             
-            let sourceHtml = "";
-            if (sources.length > 0) {
-                sourceHtml = "<br>" + sources.map(s => `<a href="${s.uri}" target="_blank" class="source-tag">🔗 ${s.title || 'المصدر'}</a>`).join("");
-            }
-
-            const label = type === 'user' ? (lang === 'ar' ? 'المستخدم' : 'USER') : (lang === 'ar' ? 'جاريفز' : 'JARVIS');
-            p.innerHTML = `<strong>[${label}]</strong> ${message}${sourceHtml}`;
+            p.className = lang === 'en' ? 'en mb-2' : 'mb-2';
+            p.innerHTML = `<span class="lang-badge">${lang.toUpperCase()}</span> ${prefix} ${label}: ${message}`;
             
             outputDiv.appendChild(p);
             outputDiv.scrollTop = outputDiv.scrollHeight;
+            
+            // Adjust terminal alignment based on last message
             outputDiv.className = `terminal ${lang === 'en' ? 'en' : ''}`;
         }
 
+        // --- Speech Recognition ---
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
-        recognition.lang = 'ar-SA';
-
-        recognition.onstart = () => { core.classList.add('listening'); btnText.textContent = "LISTENING..."; };
-        recognition.onend = () => { core.classList.remove('listening'); btnText.textContent = "START TACTICAL COMMS"; };
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            const lang = /[a-zA-Z]/.test(transcript) ? 'en' : 'ar';
-            log(transcript, 'user', lang);
-            processStrategicCommand(transcript);
+        
+        // Use continuous listening for better language switching or multiple languages
+        recognition.lang = 'ar-SA'; // Default to Arabic, but it can catch English often
+        // To better support both, we can switch recognition.lang dynamically if needed, 
+        // but modern browsers often catch English well even on 'ar' setting.
+        
+        recognition.onstart = () => {
+            core.classList.add('listening');
+            btnText.textContent = "LISTENING...";
+            sysStatus.textContent = "SYSTEM: LISTENING";
         };
 
-        startBtn.onclick = () => recognition.start();
+        recognition.onend = () => {
+            core.classList.remove('listening');
+            btnText.textContent = "INITIALIZE JARVIS";
+            sysStatus.textContent = "SYSTEM: READY";
+        };
 
-        async function processStrategicCommand(query) {
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            const isEnglish = /[a-zA-Z]/.test(transcript);
+            const detectedLang = isEnglish ? 'en' : 'ar';
+            
+            log(transcript, 'user', detectedLang);
+            processCommand(transcript);
+        };
+
+        startBtn.onclick = () => {
+            // Check if user wants to force English or let it detect
+            // For better English recognition, we can toggle or use 'en-US'
+            // Here we prioritize the language used in the last interaction or user settings
+            recognition.start();
+        };
+
+        // --- AI Processing ---
+        async function processCommand(query) {
             core.classList.add('processing');
-            sysStatus.textContent = "SEARCHING TACTICAL DATABASE...";
+            sysStatus.textContent = "SYSTEM: PROCESSING";
             
             try {
                 const response = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
@@ -229,26 +271,23 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: query }] }],
-                        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-                        tools: [{ "google_search": {} }] // تفعيل محرك البحث للربط مع البيانات الحية
+                        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] }
                     })
                 });
 
                 const data = await response.json();
-                const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Database connection error, sir.";
-                const sources = data.candidates?.[0]?.groundingMetadata?.groundingAttributions?.map(a => ({
-                    uri: a.web?.uri,
-                    title: a.web?.title
-                })) || [];
+                const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication failure, sir.";
+                
+                const isResponseEnglish = /[a-zA-Z]/.test(aiText);
+                const respLang = isResponseEnglish ? 'en' : 'ar';
 
-                const respLang = /[a-zA-Z]/.test(aiText) ? 'en' : 'ar';
-                log(aiText, 'ai', respLang, sources);
+                log(aiText, 'ai', respLang);
                 speak(aiText, respLang);
             } catch (error) {
-                log("Strategic link offline.", 'system', 'en');
+                log("Error in neural link, sir.", 'system', 'en');
             } finally {
                 core.classList.remove('processing');
-                sysStatus.textContent = "SYSTEM: READY";
+                sysStatus.textContent = "SYSTEM: ONLINE";
             }
         }
 
@@ -260,12 +299,15 @@
                 } catch (e) {}
                 await new Promise(res => setTimeout(res, Math.pow(2, i) * 1000));
             }
-            throw new Error("Failed");
+            throw new Error("Failed after retries");
         }
 
+        // --- Text to Speech (Dual Voice) ---
         async function speak(text, lang) {
             try {
-                const voiceName = lang === 'en' ? "Puck" : "Kore";
+                // Select voice based on language
+                const voiceName = lang === 'en' ? "Puck" : "Kore"; // Puck is great for JARVIS English, Kore for Arabic
+                
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -273,15 +315,23 @@
                         contents: [{ parts: [{ text: text }] }],
                         generationConfig: {
                             responseModalities: ["AUDIO"],
-                            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voiceName } } }
+                            speechConfig: {
+                                voiceConfig: {
+                                    prebuiltVoiceConfig: { voiceName: voiceName }
+                                }
+                            }
                         }
                     })
                 });
+
                 const result = await response.json();
                 const audioData = result.candidates[0].content.parts[0].inlineData.data;
                 const audioBlob = pcmToWav(audioData, 24000);
-                new Audio(URL.createObjectURL(audioBlob)).play();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audio = new Audio(audioUrl);
+                audio.play();
             } catch (error) {
+                // Browser Fallback
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = lang === 'en' ? 'en-GB' : 'ar-SA';
                 window.speechSynthesis.speak(utterance);
@@ -291,12 +341,15 @@
         function pcmToWav(base64Data, sampleRate) {
             const byteCharacters = atob(base64Data);
             const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) byteNumbers[i] = byteCharacters.charCodeAt(i);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
             const byteArray = new Uint8Array(byteNumbers);
+            const buffer = byteArray.buffer;
             const wavHeader = new ArrayBuffer(44);
             const view = new DataView(wavHeader);
             writeString(view, 0, 'RIFF');
-            view.setUint32(4, 36 + byteArray.length, true);
+            view.setUint32(4, 36 + buffer.byteLength, true);
             writeString(view, 8, 'WAVE');
             writeString(view, 12, 'fmt ');
             view.setUint32(16, 16, true);
@@ -307,15 +360,19 @@
             view.setUint16(32, 2, true);
             view.setUint16(34, 16, true);
             writeString(view, 36, 'data');
-            view.setUint32(40, byteArray.length, true);
-            return new Blob([wavHeader, byteArray], { type: 'audio/wav' });
+            view.setUint32(40, buffer.byteLength, true);
+            return new Blob([wavHeader, buffer], { type: 'audio/wav' });
         }
 
         function writeString(view, offset, string) {
-            for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
         }
 
-        window.onload = () => log("Strategic protocols active. Google Search Grounding enabled for live monitoring.", 'system', 'en');
+        window.onload = () => {
+            log("All systems operational. JARVIS is at your service, sir.", 'system', 'en');
+        };
     </script>
 </body>
 </html>
